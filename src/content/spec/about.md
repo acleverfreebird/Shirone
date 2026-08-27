@@ -1,26 +1,38 @@
-# About Shirone
+# 欢迎来到 freebird2913 的小世界 🌏
 
-Welcome to the demo site of **Shirone** (白音) — an expressive, anime-inspired blog theme built on the **Material 3 Expressive (M3E)** design system.
+嗨！我是 **freebird2913**，一个普普通通的高中生，也是这个网站的运维者。很高兴在这里遇见你！
 
-::github{repo="LyraVoid/Shirone"}
+---
 
-## ✦ Design & Philosophy
+## 🚀 关于本站
 
-Shirone aims to combine the warmth of expressive anime aesthetics with the rigor of modern web engineering:
+本博客诞生于三年前，一路走来，尝试过 `WordPress`、`Halo` 等众多博客系统，最终在 `Astro` 这里安了家。为什么是 Astro？因为它足够轻快，也让这个小破站的 SEO 忽然好转了起来——感谢开源的力量！
 
-- **Dynamic Chromatic Spell**: Full dynamic HCT palette generation responding seamlessly to light/dark modes and user preferences with zero layout shifts.
-- **Seamless Shell Navigation**: Persistent application shell driven by Swup for continuous music playback, smooth page transitions, and preserved state.
-- **Rich Story Grimoire**: Markdown and MDX authoring with KaTeX math, Mermaid diagrams, interactive admonitions, expressive code blocks, and adaptive image galleries.
-- **Zero Extra Burden**: Optional integrations (comments, analytics, music widgets) load dynamically on demand — zero DOM footprint and zero bundle overhead when disabled.
+为了让大家访问得更顺畅，本站采用了 **Vercel + Netlify 双重部署**，未来还可能接入 EdgeOne 等 CDN 平台，让速度更进一步。
 
-## ✦ Tech Stack
+---
 
-- **Framework**: [Astro 7](https://astro.build/) & [Svelte 5](https://svelte.dev/) (Runes-driven islands)
-- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/) & [Stylus](https://stylus-lang.com/)
-- **Design Standard**: [Material 3 Expressive](https://m3.material.io/)
-- **Typography**: Outfit & Yozai (悠哉圆体) with automated build-time subsetting
-- **Search Engine**: [Pagefind](https://pagefind.app/) offline full-text search
+## 🌐 域名那些事
 
-## ✦ Credits
+虽然我手里有好几个域名（比如 `freebird.asia`），但最终都指向了主站：
 
-- **Font**: [Yozai Font (悠哉字体)](https://github.com/lxgw/yozai-font) by [lxgw](https://github.com/lxgw)
+👉 **www.freebird2913.tech**
+
+为什么不启用其他域名呢？因为它们目前在搜索引擎中的权重还比较低……不过说不定哪天，它们也会成为通往这里的秘密通道呢。
+
+---
+
+## 📬 欢迎交流
+
+如果你对博客、技术或者任何话题感兴趣，欢迎留言或通过其他方式找到我。一个高中生的运维之路，还在继续探索中～
+
+感谢你来看我，希望这里的内容能给你带来一点点启发或乐趣！
+
+
+---
+本网站基于 **Astro** 框架，使用 [Mizuki](https://github.com/LyraVoid/Mizuki) 主题。
+
+::github{repo="LyraVoid/Mizuki"}
+
+*构建 ❤️ 使用 Astro 框架和现代网页设计原则启发。*
+

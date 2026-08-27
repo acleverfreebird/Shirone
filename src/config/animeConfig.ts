@@ -68,7 +68,7 @@ export const animeConfig: AnimeConfig = {
 		bilibili: {
 			enable: false,
 			vmid: "", // 填入你的 B 站公开 UID
-			sessdataEnv: "BILI_SESSDATA",
+			sessdataEnv: "1027987801",
 			cover: {
 				mode: "local", // "local" 站内下载缓存（推荐）| "remote" 远程链接 | "none"
 				useWebp: true,

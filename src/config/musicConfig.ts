@@ -46,7 +46,7 @@ import type {
  * ─────────────────────────────────────────────────────────────────────────────
  */
 export const musicConfig: MusicConfig = {
-	enable: true,
+	enable: false,
 	provider: "mixed",
 	// tracks: [
 	// 	{

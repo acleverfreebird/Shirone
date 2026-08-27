@@ -9,10 +9,10 @@ import type {
  * 类型见 src/types/config.ts。
  */
 export const siteConfig: SiteConfig = {
-	site: "https://shirone.mysqil.com/",
+	site: "https://www.freebird2913.tech/",
 	base: "/",
-	title: "Shirone",
-	subtitle: "A Material 3 anime blog",
+	title: "freebird2913",
+	subtitle: "一个普普通通的高中生开发者",
 	// 电脑端顶栏标题与导航内容区域："left" 左对齐，"center" 居中。
 	topAppBar: {
 		contentAlign: "center",
@@ -26,9 +26,9 @@ export const siteConfig: SiteConfig = {
 		reduceMotion: true, // 是否展示减少动效切换
 		texture: true, // 是否展示背景纹理选择
 	},
-	lang: "en", // Language code, e.g. 'en', 'zh_CN', 'ja', etc.
+	lang: "zh_CN", // Language code, e.g. 'en', 'zh_CN', 'ja', etc.
 	themeColor: {
-		hue: 315, // Default hue 0-360. 站点设计默认粉紫（偏二次元）；262 紫 / 345 粉 也可选
+		hue: 50, // Default hue 0-360. 站点设计默认粉紫（偏二次元）；262 紫 / 345 粉 也可选
 		fixed: false, // Hide the theme color picker for visitors
 		// Dynamic Material 3 palette style (TonalSpot/Vibrant/Content/Expressive/Rainbow/FruitSalad/Monochrome/Neutral/Fidelity)
 		style: "tonalSpot",
@@ -54,8 +54,8 @@ export const siteConfig: SiteConfig = {
 		// desktop 用于 >= 1024px；mobile 仅用于 < 1024px 的首页，手机非首页不显示壁纸。
 		// 数组顺序就是轮播顺序；只需要静态 Banner 时，每组保留一张图片即可。
 		src: {
-			desktop: ["assets/images/banner/desktop/1.webp"],
-			mobile: ["assets/images/banner/mobile/1.webp"],
+			desktop: ["https://free.picui.cn/free/2026/08/10/6a796e9869798.webp"], // 桌面横幅图片
+     		 mobile: ["https://free.picui.cn/free/2026/08/05/6a733dc366fc5.webp"], // 移动横幅图片
 		},
 		// 图片裁切焦点："top"、"center" 或 "bottom"。
 		position: "center",
@@ -67,13 +67,14 @@ export const siteConfig: SiteConfig = {
 		homeText: {
 			// 仅在首页 Banner 中显示，标题与副标题会上下居中排列。
 			enable: true,
-			title: "Shirone",
+			title: "freebird2913",
 			subtitle: [
-				"特別なことはないけど、君がいると十分です",
-				"今でもあなたは私の光",
-				"君ってさ、知らないうちに私の毎日になってたよ",
-				"君と話すと、なんか毎日がちょっと楽しくなるんだ",
-				"今日はなんでもない日。でも、ちょっとだけいい日",
+				"这世界很大,我想去看看",
+				"一个普普通通的高中生开发者",
+				"喜欢折腾各种小玩具",
+				"偶尔写写博客记录生活",
+				"欢迎来到我的小站",
+				"希望你能喜欢这里",
 			],
 			typewriter: {
 				// 副标题逐字显示；关闭后直接显示完整副标题。

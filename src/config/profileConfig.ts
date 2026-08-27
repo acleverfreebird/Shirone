@@ -5,26 +5,14 @@ import type { ProfileConfig } from "@/types/config";
  * 类型见 src/types/config.ts。
  */
 export const profileConfig: ProfileConfig = {
-	avatar: "assets/images/demo-avatar.webp", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
-	name: "Shirone",
-	bio: "The rain remembers what the sky forgot to say.",
+	avatar: "assets/images/avatar.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
+	name: "freebird2913",
+	bio: "雨记得天空忘记说的话。",
 	links: [
 		{
-			name: "Twitter",
-			icon: "fa6-brands:twitter", // Visit https://icones.js.org/ for icon codes
-			// You will need to install the corresponding icon set if it's not already included
-			// `pnpm add @iconify-json/<icon-set-name>`
-			url: "https://twitter.com",
-		},
-		{
-			name: "Steam",
-			icon: "fa6-brands:steam",
-			url: "https://store.steampowered.com",
-		},
-		{
-			name: "GitHub",
-			icon: "fa6-brands:github",
-			url: "https://github.com/LyraVoid/Shirone",
+		name: "GitHub",
+		icon: "fa7-brands:github",
+		url: "https://github.com/acleverfreebird",
 		},
 	],
 };
