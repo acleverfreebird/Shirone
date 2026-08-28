@@ -1,7 +1,14 @@
 @reference "tailwindcss";
 
+@import "./markdown/abbreviations.css";
 @import "./markdown/disclosures.css";
+@import "./markdown/admonitions.css";
+@import "./markdown/collapse-panels.css";
 @import "./markdown/trees.css";
+@import "./markdown/steps.css";
+@import "./markdown/content-annotations.css";
+@import "./markdown/marker.css";
+@import "./markdown/option-groups.css";
 
 .custom-md {
   h1 {

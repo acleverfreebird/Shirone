@@ -13,6 +13,7 @@ export function createDisclosure({
 	children,
 	indicator,
 	open = false,
+	name,
 	className,
 	summaryClassName,
 	contentClassName,
@@ -22,6 +23,7 @@ export function createDisclosure({
 		{
 			className: classNames("m3-disclosure", className),
 			...(open ? { open: true } : {}),
+			...(name ? { name } : {}),
 		},
 		[
 			h(
