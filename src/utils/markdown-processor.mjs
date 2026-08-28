@@ -4,15 +4,32 @@ import rehypeComponents from "rehype-components"; /* Render the custom directive
 import rehypeKatex from "rehype-katex";
 import rehypeSlug from "rehype-slug";
 import remarkDirective from "remark-directive"; /* Handle directives */
-import remarkGithubAdmonitionsToDirectives from "remark-github-admonitions-to-directives";
 import remarkMath from "remark-math";
 import remarkSectionize from "remark-sectionize";
 import { siteConfig } from "../config/siteConfig.ts";
+import { remarkCodeTree } from "../plugins/markdown/code/remark-code-tree.mjs";
 import { remarkFileTree } from "../plugins/markdown/code/remark-file-tree.mjs";
+import { CodeTreeComponent } from "../plugins/markdown/containers/rehype-code-tree.mjs";
+import {
+	CollapsePanelsComponent,
+	rehypeCollapseGroups,
+} from "../plugins/markdown/containers/rehype-collapse-panels.mjs";
 import { FileTreeComponent } from "../plugins/markdown/containers/rehype-file-tree.mjs";
+import {
+	OptionGroupsComponent,
+	rehypeOptionGroupIds,
+} from "../plugins/markdown/containers/rehype-option-groups.mjs";
+import { StepsComponent } from "../plugins/markdown/containers/rehype-steps.mjs";
+import { remarkAbbreviations } from "../plugins/markdown/remark-abbreviations.mjs";
+import { remarkAdmonitions } from "../plugins/markdown/remark-admonitions.mjs";
+import { remarkCollapsePanels } from "../plugins/markdown/remark-collapse-panels.mjs";
+import { remarkContentAnnotations } from "../plugins/markdown/remark-content-annotations.mjs";
+import { remarkMarker } from "../plugins/markdown/remark-marker.mjs";
+import { remarkOptionGroups } from "../plugins/markdown/remark-option-groups.mjs";
 import { AdmonitionComponent } from "../plugins/rehype-component-admonition.mjs";
 import { GithubCardComponent } from "../plugins/rehype-component-github-card.mjs";
 import { ImageGridComponent } from "../plugins/rehype-component-image-grid.mjs";
+import { MarkerComponent } from "../plugins/rehype-component-marker.mjs";
 import { rehypeMarkdownImages } from "../plugins/rehype-markdown-images.mjs";
 import { rehypeResponsiveTables } from "../plugins/rehype-responsive-tables.mjs";
 import { parseDirectiveNode } from "../plugins/remark-directive-rehype.js";
@@ -26,12 +43,18 @@ import { remarkReadingTime } from "../plugins/remark-reading-time.mjs";
  */
 export const siteRemarkPlugins = [
 	remarkEscapeNumericColons,
+	remarkContentAnnotations,
+	remarkAbbreviations,
+	remarkAdmonitions,
+	remarkCollapsePanels,
+	remarkOptionGroups,
+	remarkMarker,
 	remarkMath,
 	remarkFileTree,
+	remarkCodeTree,
 	remarkMermaid,
 	remarkReadingTime,
 	remarkExcerpt,
-	remarkGithubAdmonitionsToDirectives,
 	remarkDirective,
 	remarkSectionize,
 	parseDirectiveNode,
@@ -43,18 +66,27 @@ export const siteRemarkPlugins = [
 export const siteRehypePlugins = [
 	rehypeKatex,
 	rehypeSlug,
+	rehypeCollapseGroups,
+	rehypeOptionGroupIds,
 	[
 		rehypeComponents,
 		{
 			components: {
+				collapse: CollapsePanelsComponent,
+				tabs: OptionGroupsComponent,
 				"file-tree": FileTreeComponent,
+				"code-tree": CodeTreeComponent,
+				steps: StepsComponent,
 				github: GithubCardComponent,
 				grid: ImageGridComponent,
 				note: (x, y) => AdmonitionComponent(x, y, "note"),
+				info: (x, y) => AdmonitionComponent(x, y, "info"),
 				tip: (x, y) => AdmonitionComponent(x, y, "tip"),
 				important: (x, y) => AdmonitionComponent(x, y, "important"),
 				caution: (x, y) => AdmonitionComponent(x, y, "caution"),
 				warning: (x, y) => AdmonitionComponent(x, y, "warning"),
+				"admonition-details": (x, y) => AdmonitionComponent(x, y, "details"),
+				"m3-mark": MarkerComponent,
 			},
 		},
 	],

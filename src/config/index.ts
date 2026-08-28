@@ -41,6 +41,7 @@ export {
 	resolveImageBloomOptions,
 } from "./imageBloomConfig";
 export { licenseConfig } from "./licenseConfig";
+export { llmsConfig } from "./llmsConfig";
 export {
 	clampMusicVolume,
 	musicConfig,
