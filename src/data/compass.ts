@@ -38,81 +38,81 @@ export interface CompassShelf {
 export const compassData: CompassShelf[] = [
 	{
 		key: "dev",
-		name: "Development",
+		name: "开发",
 		icon: "material-symbols:code-rounded",
-		blurb: "Sites I keep open while writing code",
+		blurb: "我在开发中常用的站点和工具",
 		entries: [
 			{
 				label: "GitHub",
 				href: "https://github.com",
-				note: "Code hosting & collaboration",
+				note: "代码托管与协作",
 				icon: "fa6-brands:github",
 			},
 			{
 				label: "MDN",
 				href: "https://developer.mozilla.org",
-				note: "Authoritative web docs",
+				note: "权威的网页开发文档",
 				icon: "material-symbols:menu-book-rounded",
 			},
 			{
 				label: "Stack Overflow",
 				href: "https://stackoverflow.com",
-				note: "Q&A and debugging",
+				note: "提问与解答编程问题",
 			},
 		],
 	},
 	{
 		key: "design",
-		name: "Design",
+		name: "设计",
 		icon: "material-symbols:palette-outline-rounded",
-		blurb: "Colors, icons and inspiration",
+		blurb: "颜色、图标、原型设计等资源",
 		entries: [
 			{
 				label: "Iconify",
 				href: "https://icon-sets.iconify.design",
-				note: "Searchable open-source icon sets",
+				note: "Iconify 图标集",
 			},
 			{
 				label: "Material Symbols",
 				href: "https://fonts.google.com/icons",
-				note: "Official M3 icon set",
+				note: "Google Material Symbols 图标集",
 				icon: "material-symbols:star-rounded",
 			},
 			{
 				label: "Excalidraw",
 				href: "https://excalidraw.com",
-				note: "Hand-drawn whiteboard collaboration",
+				note: "手绘图与原型设计",
 			},
 		],
 	},
 	{
 		key: "tools",
-		name: "Tools",
+		name: "工具",
 		icon: "material-symbols:build-outline-rounded",
 		entries: [
 			{
 				label: "Squoosh",
 				href: "https://squoosh.app",
-				note: "Image compression & conversion",
+				note: "图片压缩与格式转换",
 			},
 			{
 				label: "Regex101",
 				href: "https://regex101.com",
-				note: "Regex testing & debugging",
+				note: "测试和调试正则表达式",
 			},
 		],
 	},
 	{
 		key: "reads",
-		name: "Reading",
+		name: "阅读",
 		icon: "material-symbols:auto-stories-outline-rounded",
 		entries: [
 			{ label: "Hacker News", href: "https://news.ycombinator.com" },
-			{ label: "V2EX", href: "https://www.v2ex.com" },
+			{ label: "LinuxDO", href: "https://www.linux.do" },
 			{
 				label: "Solidot",
 				href: "https://www.solidot.org",
-				note: "Tech and culture news",
+				note: "IT 新闻与评论",
 			},
 		],
 	},
