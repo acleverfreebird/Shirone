@@ -15,17 +15,17 @@ export const skillsConfig: SkillsConfig = {
 	categories: [
 		{
 			key: "frontend",
-			label: "Frontend",
+			label: "前端",
 			icon: "material-symbols:web-rounded",
 		},
 		{
 			key: "backend",
-			label: "Backend",
+			label: "后端",
 			icon: "material-symbols:dns-rounded",
 		},
 		{
 			key: "tooling",
-			label: "Tooling",
+			label: "工具",
 			icon: "material-symbols:construction-rounded",
 		},
 	],

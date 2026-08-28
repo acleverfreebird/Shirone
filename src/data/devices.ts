@@ -6,7 +6,7 @@ import type { DeviceItem } from "@/types/devicesConfig";
 
 export const devicesData: DeviceItem[] = [
 	{
-		id: "macbook-pro-16",
+		id: "Air",
 		name: 'MacBook Pro 16"',
 		brand: "Apple",
 		category: "desk",
@@ -20,19 +20,6 @@ export const devicesData: DeviceItem[] = [
 		link: "https://www.apple.com/macbook-pro/",
 	},
 	{
-		id: "iphone-16-pro",
-		name: "iPhone 16 Pro",
-		brand: "Apple",
-		category: "mobile",
-		status: "active",
-		specs: "Natural Titanium / 256GB",
-		description:
-			"Daily driver smartphone with outstanding cameras and a smooth 120Hz ProMotion display.",
-		icon: "material-symbols:phone-iphone",
-		featured: true,
-		year: "2024",
-	},
-	{
 		id: "sony-wh1000xm5",
 		name: "Sony WH-1000XM5",
 		brand: "Sony",
@@ -43,18 +30,6 @@ export const devicesData: DeviceItem[] = [
 			"Industry-leading noise-canceling headphones for immersive coding sessions and travels.",
 		icon: "material-symbols:headphones-rounded",
 		year: "2023",
-	},
-	{
-		id: "custom-keyboard-75",
-		name: "Custom 75% Mechanical Keyboard",
-		brand: "Custom",
-		category: "peripheral",
-		status: "active",
-		specs: "Anodized Aluminum / Linear Switches",
-		description:
-			"Custom gasket-mounted keyboard tuned for deep, quiet typing acoustics.",
-		icon: "material-symbols:keyboard-outline-rounded",
-		year: "2025",
 	},
 	{
 		id: "ipad-pro-11",
