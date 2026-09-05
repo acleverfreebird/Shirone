@@ -316,4 +316,23 @@ test.describe("article share page integration", () => {
 		const share = page.locator("[data-article-share]");
 		await expect(share).toBeVisible();
 	});
+
+	test("copies the current post URL after Swup navigation", async ({
+		page,
+		context,
+	}) => {
+		await context.grantPermissions(["clipboard-read", "clipboard-write"], {
+			origin: "http://localhost:4321",
+		});
+		await page.goto("/", { waitUntil: "networkidle" });
+		await page.waitForFunction(() => Boolean(window.swup?.navigate));
+		await page.evaluate(() => window.swup?.navigate("/posts/guide/"));
+		await expect(page).toHaveURL(/\/posts\/guide\/?$/);
+		await expect(page.locator("#copy-post-link")).toBeVisible();
+
+		await page.locator("#copy-post-link").click();
+		const clipboard = await page.evaluate(() => navigator.clipboard.readText());
+		expect(clipboard).toContain("/posts/");
+		expect(clipboard).toBe(await page.evaluate(() => window.location.href));
+	});
 });

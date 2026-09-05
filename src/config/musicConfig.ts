@@ -6,6 +6,7 @@ import type {
 	PlaybackMode,
 	TrackDescriptor,
 } from "../types/musicConfig.ts";
+import { withUserConfig } from "../utils/config-overlay.ts";
 
 /**
  * 侧栏音乐配置单一真源。
@@ -45,7 +46,7 @@ import type {
  *      meting: { server: "netease", type: "playlist", id: "14164869977" }
  * ─────────────────────────────────────────────────────────────────────────────
  */
-export const musicConfig: MusicConfig = {
+export const musicConfig: MusicConfig = withUserConfig("music", {
 	enable: false,
 	provider: "mixed",
 	// tracks: [
@@ -65,7 +66,7 @@ export const musicConfig: MusicConfig = {
 	},
 	defaultVolume: 0.7,
 	defaultMode: "sequence",
-};
+});
 
 export interface ResolvedMusicOptions {
 	readonly provider: MusicProvider;

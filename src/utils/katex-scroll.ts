@@ -1,10 +1,9 @@
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
-import { OverlayScrollbars } from "overlayscrollbars";
 
 const observed = new WeakSet<HTMLElement>();
 
-function enhanceKaTeXDisplay(element: HTMLElement): void {
+async function enhanceKaTeXDisplay(element: HTMLElement): Promise<void> {
 	if (!element.parentNode || element.dataset.scrollbarInitialized === "true") {
 		return;
 	}
@@ -22,6 +21,7 @@ function enhanceKaTeXDisplay(element: HTMLElement): void {
 	}
 	container.setAttribute("aria-label", i18n(I18nKey.formulaScrollable));
 
+	const { OverlayScrollbars } = await import("overlayscrollbars");
 	OverlayScrollbars(container, {
 		scrollbars: {
 			theme: "scrollbar-base scrollbar-auto",
@@ -40,7 +40,7 @@ const observer =
 				(entries, currentObserver) => {
 					for (const entry of entries) {
 						if (!entry.isIntersecting) continue;
-						enhanceKaTeXDisplay(entry.target as HTMLElement);
+						void enhanceKaTeXDisplay(entry.target as HTMLElement);
 						currentObserver.unobserve(entry.target);
 					}
 				},
@@ -57,6 +57,6 @@ export function initKaTeXScrollbars(root: ParentNode = document): void {
 		}
 		observed.add(element);
 		if (observer) observer.observe(element);
-		else enhanceKaTeXDisplay(element);
+		else void enhanceKaTeXDisplay(element);
 	}
 }

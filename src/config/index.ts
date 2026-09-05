@@ -27,6 +27,7 @@ export {
 	type ResolvedCommentOptions,
 	resolveCommentOptions,
 } from "./commentConfig";
+export { contextMenuConfig } from "./contextMenuConfig";
 export { devicesConfig } from "./devicesConfig";
 export { expressiveCodeConfig } from "./expressiveCodeConfig";
 export { fabConfig } from "./fabConfig";
@@ -49,6 +50,7 @@ export {
 	resolveMusicOptions,
 } from "./musicConfig";
 export { LinkPresets, navBarConfig } from "./navBarConfig";
+export { permalinkConfig } from "./permalinkConfig";
 export { POST_CARD_MIN_WIDTH, postListConfig } from "./postListConfig";
 export { profileConfig } from "./profileConfig";
 export { projectsConfig } from "./projectsConfig";
@@ -62,3 +64,8 @@ export {
 } from "./siteConfig";
 export { skillsConfig } from "./skillsConfig";
 export { timelineConfig } from "./timelineConfig";
+export {
+	type ResolvedUmamiOptions,
+	resolveUmamiOptions,
+	umamiConfig,
+} from "./umamiConfig";

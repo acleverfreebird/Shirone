@@ -17,6 +17,7 @@ Shirone is a blog theme built with Astro 7, Svelte 5, Tailwind 4, Stylus, and pn
 - In Svelte, follow the syntax already used by the file (runes or legacy) and never mix the two modes in one component. Use template-literal classes when conditional class names interact with scoped unused-CSS analysis; preserve valid `class:` directives elsewhere. In Stylus, keep modifier and element selectors as separate selectors where `&` would concatenate them incorrectly.
 - Keep designs original and differentiated. `research/` is reference material only: do not copy its schemas, names, defaults, algorithms, component compositions, or visual layouts. Do not edit, install, build, format, or commit inside research checkouts; descendant `AGENTS.md` files there are upstream artifacts, not Shirone instructions.
 - Persistent shell elements outside `#swup-container` are not rerendered by Swup. Logic that reacts to route changes must use the appropriate Swup lifecycle hook (`content:replace`, `page:view`, or event delegation) and must be tested for both direct load and client navigation.
+- Shirone also ships as an npm package (`shirones`); `src/integration/` rebuilds `astro.config.mjs` for user projects. Any change to the theme source must keep both modes working — mirror config changes into `src/integration/`, avoid `process.cwd()` reads of theme-owned files, register Markdown syntax in the manifest, and follow the overlay rules. See `rules/project-rules.md` §12 and `docs/packaging-contract.md`.
 
 ## Required documents
 
@@ -26,10 +27,16 @@ Shirone is a blog theme built with Astro 7, Svelte 5, Tailwind 4, Stylus, and pn
 - `docs/atomic-structure.md` — component layering and ownership.
 - `docs/m3e-standard.md` — M3E tokens and component standard.
 - `docs/markdown-extensions.md` — Markdown plugin pipeline, Typography boundaries, cache refresh, and validation.
+- `docs/markdown-on-demand-loading.md` — required before changing Markdown feature probes, conditional styles, runtime loading, or Swup resource lifecycles.
 - `docs/markdown-syntax-manifest.md` — required before adding, changing, or retiring custom author-facing Markdown syntax.
 - `docs/sidebar-system.md` — sidebar orchestration, page filtering, and Swup synchronization.
 - `src/config/README.md` — required before changing configuration types or values.
+- `rules/ai-skills.md` — required before adding or changing AI skills or their packaging workflow.
+- `docs/npm-package-mode.md` — how the theme behaves when installed as the `shirones` package (config paths, content root, init).
+- `docs/packaging-contract.md` — the two-mode contract every theme change must respect; see `rules/project-rules.md` §12 for the sync checklist.
+- `docs/ai-skills-maintenance.md` — required for the skills/project documentation split and release checklist.
 - The nearest nested `AGENTS.md` — local rules are additive and narrower than this file.
+- `.agents/skills/README.md` — task-scoped AI skills for developers and theme users; consult the matching skill (and keep its content in sync) when working in its domain.
 
 ## Validation
 

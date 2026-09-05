@@ -1,4 +1,5 @@
 import type { CommentConfig, TwikooConfig } from "@/types/commentConfig";
+import { withUserConfig } from "../utils/config-overlay.ts";
 
 /**
  * 评论系统配置单一真源。
@@ -12,7 +13,7 @@ import type { CommentConfig, TwikooConfig } from "@/types/commentConfig";
  * 3. 填入你的 `twikoo.envId`；
  * 4. （可选）自定义 `scriptUrl`（如使用自建 CDN 或官方 unpkg/jsdelivr 源）。
  */
-export const commentConfig: CommentConfig = {
+export const commentConfig: CommentConfig = withUserConfig("comment", {
 	/** 全局评论总开关：false 时完全不加载评论脚本与 DOM */
 	enable: true,
 	/** 评论提供商类型："none" | "twikoo" */
@@ -30,7 +31,7 @@ export const commentConfig: CommentConfig = {
 		/** 评论输入框占位提示文本 */
 		placeholder: "分享你的想法...",
 	},
-};
+});
 
 export type ResolvedCommentOptions = {
 	provider: "twikoo";

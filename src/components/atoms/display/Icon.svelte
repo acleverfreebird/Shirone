@@ -1,6 +1,6 @@
 <script lang="ts">
-import OfflineIcon from "@iconify/svelte/dist/OfflineIcon.svelte";
-import { addCollection } from "@iconify/svelte/dist/offline-functions";
+import OfflineIcon from "@shirone/iconify-offline";
+import { addCollection } from "@shirone/iconify-offline-functions";
 import type { ComponentProps } from "svelte";
 import { localIconCollections } from "@/generated/local-icon-collections";
 

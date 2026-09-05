@@ -1,4 +1,5 @@
 import type { ProjectsConfig } from "@/types/projectsConfig";
+import { withUserConfig } from "../utils/config-overlay.ts";
 
 /**
  * 项目页行为与展示配置。
@@ -10,7 +11,7 @@ import type { ProjectsConfig } from "@/types/projectsConfig";
  *
  * 注：项目的具体内容数据（标题、描述、技术栈、链接、封面等）请在 `src/data/projects.ts` 中维护。
  */
-export const projectsConfig: ProjectsConfig = {
+export const projectsConfig: ProjectsConfig = withUserConfig("projects", {
 	enable: true,
 	categories: [
 		{
@@ -25,4 +26,4 @@ export const projectsConfig: ProjectsConfig = {
 		},
 	],
 	// disabledKeys: [],
-};
+});

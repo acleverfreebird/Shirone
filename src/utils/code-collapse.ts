@@ -1,3 +1,6 @@
+import I18nKey from "@i18n/i18nKey";
+import { i18n } from "@i18n/translation";
+
 /**
  * 代码块折叠（长代码块自动折叠 + 折叠/展开按钮）。
  * 运行时为 `.expressive-code` 代码块注入折叠按钮，行数达到阈值时默认折叠。
@@ -42,7 +45,6 @@ export class CodeBlockCollapser {
 
 	constructor() {
 		this.config = readConfig(document.getElementById("config-carrier"));
-		this.setupCodeBlocks();
 	}
 
 	setupCodeBlocks(root: ParentNode = document) {
@@ -117,8 +119,11 @@ export class CodeBlockCollapser {
 
 	private updateButton(button: HTMLButtonElement, collapsed: boolean) {
 		button.setAttribute("aria-expanded", String(!collapsed));
-		button.setAttribute("aria-label", collapsed ? "展开代码块" : "折叠代码块");
-		button.title = collapsed ? "展开代码块" : "折叠代码块";
+		const label = i18n(
+			collapsed ? I18nKey.codeBlockExpand : I18nKey.codeBlockCollapse,
+		);
+		button.setAttribute("aria-label", label);
+		button.title = label;
 	}
 
 	private toggleCollapse(codeBlock: HTMLElement, button: HTMLButtonElement) {
@@ -129,26 +134,13 @@ export class CodeBlockCollapser {
 	}
 }
 
-// swup 每次替换内容后，为新的代码块注入折叠按钮。
-// swup 可能异步启用（swup:enable），需要监听该事件后再绑定 page:view。
-const setupCollapse = () => {
-	window.codeBlockCollapser = new CodeBlockCollapser();
-	const bindSwup = () => {
-		window.swup?.hooks?.on("page:view", () => {
-			window.codeBlockCollapser.setupCodeBlocks();
-		});
-	};
-	if (window.swup?.hooks) {
-		bindSwup();
-	} else {
-		document.addEventListener("swup:enable", bindSwup, { once: true });
-	}
-};
+let codeBlockCollapser: CodeBlockCollapser | undefined;
 
-setupCollapse();
-
-declare global {
-	interface Window {
-		codeBlockCollapser: CodeBlockCollapser;
-	}
+/**
+ * Enhances code blocks inside the supplied Markdown root. Swup lifecycle
+ * ownership remains with `markdown-runtime` so this module stays lazy.
+ */
+export function initCodeBlockCollapsing(root: ParentNode = document): void {
+	codeBlockCollapser ??= new CodeBlockCollapser();
+	codeBlockCollapser.setupCodeBlocks(root);
 }

@@ -1,5 +1,7 @@
 # 按需加载与关闭零开销指南（On-demand Loading / Zero Cost when Disabled）
 
+> Markdown 语法由内容命中驱动，不属于配置开关；其特征探测、样式包与 Swup 资源生命周期见 [`markdown-on-demand-loading.md`](./markdown-on-demand-loading.md)。
+
 > 适用对象：任何可选特性、侧栏 widget、第三方服务（评论、统计、分享等）或可配置能力。
 > 原则定义见 `rules/project-rules.md` §7；本文档给出**落地做法**与**验证方法**，参考实现为评论系统。
 

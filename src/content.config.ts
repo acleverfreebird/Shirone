@@ -7,7 +7,9 @@ const postsCollection = defineCollection({
 	schema: z.object({
 		title: z.string(),
 		published: z.date(),
+		publishedAt: z.date().optional(),
 		updated: z.date().optional(),
+		updatedAt: z.date().optional(),
 		pinned: z.boolean().optional().default(false),
 		draft: z.boolean().optional().default(false),
 		comment: z.boolean().optional().default(true),
@@ -26,7 +28,13 @@ const postsCollection = defineCollection({
 		passwordHint: z.string().optional().default(""),
 		hideHomeContent: z.boolean().optional().default(true),
 
+		/* Post alias & custom permalink */
+		alias: z.string().optional(),
+		permalink: z.string().optional(),
+
 		/* For internal use */
+		prevUrl: z.string().optional(),
+		nextUrl: z.string().optional(),
 		prevTitle: z.string().default(""),
 		prevSlug: z.string().default(""),
 		nextTitle: z.string().default(""),

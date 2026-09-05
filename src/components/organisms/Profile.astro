@@ -5,6 +5,7 @@ import IconButton from "@components/atoms/action/IconButton.svelte";
 import Avatar from "@components/atoms/display/Avatar.svelte";
 import Card from "@components/atoms/display/Card.svelte";
 import Tooltip from "@components/atoms/overlay/Tooltip.svelte";
+import UmamiStats from "@components/organisms/UmamiStats.astro";
 import { resolveImageAsset } from "@utils/asset-utils";
 import { Icon } from "astro-icon/components";
 import { profileConfig } from "@/config";
@@ -97,6 +98,7 @@ if (typeof avatarAsset !== "string") {
                 {config.links[0].name}
             </Button>}
         </div>
+        <UmamiStats variant="profile" />
     </div>
 	</Card>
 </div>

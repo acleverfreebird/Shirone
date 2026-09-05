@@ -39,19 +39,69 @@ Shirone 遵循「配置管行为，数据管内容」的清晰分层架构：
 
 1. 类型定义加入 `src/types/<domain>Config.ts`（新领域则新建文件，字段带中文注释说明语义与默认值）；
 2. 值加入 `src/config/<domain>Config.ts`，保持注释完整——注释是配置的文档；
-3. 新文件在 `src/config/index.ts` barrel 注册导出；
+3. 新文件在 `src/config/index.ts` barrel 注册导出；用 `withUserConfig("<domain>", { ... })`
+   包住默认值字面量，并在 `scripts/content/config-domains.mjs` 登记该领域（见下文「用户覆盖层」）；
 4. **安全默认与零额外负担**：可选外部服务/重量级特性默认必须为关闭（如 `enable: false`）。在关闭或未配置时，必须满足「零外部请求、零占位 DOM、零性能损耗、零主包膨胀」的零额外负担要求；
    落地做法与验证方法见 `docs/on-demand-loading.md`；
 5. UI 文案走 `I18nKey` 枚举 + `i18n()`（如 `navBarConfig` 的用法），**不写死字符串**；
    新增 i18n key 必须同步补全 `src/i18n/languages/` 下全部 10 种语言；
 6. 跑 `npx.cmd astro check` 确认 0 错误 0 警告。
 
+## 用户覆盖层（内容仓 `config/*.yaml`）
+
+本目录的每个领域配置都把自己的字面量默认值交给 `withUserConfig()`：
+
+```typescript
+export const siteConfig: SiteConfig = withUserConfig("site", {
+	title: "Shirone",
+	// ...默认值连同注释一起留在代码仓
+});
+```
+
+`local` 模式下 `withUserConfig()` 原样返回默认值，零开销。`external` 模式下，
+内容仓 `config/site.yaml` 里的键会与默认值**深合并**（对象递归合并、数组整体替换）
+后返回，合并源是 `pnpm content:sync` 生成的 `src/user/user-config.ts`。
+
+因此本目录的定位没有变：**它是默认值与配置文档的唯一真源**，
+注释写得越清楚，内容仓那边越不需要猜。契约与 YAML 写法见
+[`docs/content-separation/config-overlay.md`](../../docs/content-separation/config-overlay.md)。
+
+新增配置领域时，除了本文下方的清单，还要在
+`scripts/content/config-domains.mjs` 补一行登记（领域名、YAML 文件名、类型），
+它同时驱动生成、校验与 `content:eject` 的起步文件；`tests/content/content-config.test.mjs`
+会检查登记表的文件名唯一且为 kebab-case。
+
+`navBarConfig` 是唯一不走 `withUserConfig()` 的领域：导航项要引用 `LinkPresets`
+并调用 `i18n()`，深合并只会得到一堆未解析的引用，因此它由 `resolveNavBarLinks()`
+把内容仓的声明式条目还原成 `NavBarLink`。
+
+### 反向导出覆盖层（`content:export --config`）
+
+覆盖层是双向的：`pnpm content:export --config` 会求「当前生效配置」与「主题默认值」的差，
+把最小覆盖集写回内容仓的 `config/*.yaml`（保留用户已有的注释与格式，只增改不删键）。
+它是 `deepMerge` 的精确逆运算，因此喂回 `content:sync` 之后生效配置逐字段不变。
+
+典型用途是救援：`content:clean` 会把 `src/user/user-config.ts` 重置成空覆盖层，
+在那份生成物里的改动会因此丢失；导出能先把它固化成 YAML。默认只预演，用法与安全机制见
+[`docs/content-separation/cli-workflows.md`](../../docs/content-separation/cli-workflows.md)。
+
+两条边界要知道：
+
+- **`navBar` 不参与导出**。`resolveNavBarLinks()` 的解析不可逆，`config/nav-bar.yaml` 只能手工维护；
+- **不会把本目录的源码改动提升成覆盖**。直接修改 `<domain>Config.ts` 里的默认值字面量时，
+  「默认值」与「生效值」同步变化，差分为空，那处改动不会进入导出计划。
+  这是有意为之：把当前默认值提升成内容仓的永久覆盖，等于把配置冻结在这一版主题上。
+  想固化就在 fork 里提交它，或照常在内容仓写一条对应的 YAML 覆盖。
+
+领域键与 YAML 文件名一律 kebab-case 对应驼峰：`llms` ↔ `config/llms.yaml` ↔ `llmsConfig`，
+`postList` ↔ `config/post-list.yaml` ↔ `postListConfig`。
+
 ## 现有配置一览
 
 | 文件 | 职责 |
 |---|---|
 | `footerConfig.ts` | 页脚自定义 HTML 注入开关（控制是否读取并注入 `src/config/FooterConfig.html`，关闭时零开销） |
-| `siteConfig.ts` | 站点部署 URL / base 路径 / 标题标识 / 语言 / HCT 主题色 / 背景纹理系统 / 显示设置浮层开关 / 横幅 / TOC 深度 / 进度条 / favicon（含 `getDefaultStyle` / `getDefaultSpec` / `resolveDisplaySettings` 回退值） |
+| `siteConfig.ts` | 站点部署 URL / base 路径 / 标题标识 / 语言 / IANA 时区 / HCT 主题色 / 背景纹理系统 / 显示设置浮层开关 / 横幅 / TOC 深度 / 进度条 / favicon（含 `getDefaultStyle` / `getDefaultSpec` / `resolveDisplaySettings` 回退值） |
 | `profileConfig.ts` | 博主资料：头像 / 名称 / 简介 / 社交链接 |
 | `licenseConfig.ts` | 文章版权声明 |
 | `expressiveCodeConfig.ts` | 代码块明暗主题 |
@@ -63,12 +113,14 @@ Shirone 遵循「配置管行为，数据管内容」的清晰分层架构：
 | `postListConfig.ts` | 文章列表：分页大小 + 布局（list/grid 模式、封面位置、grid 卡片宽度档位） |
 | `articleConfig.ts` | 文章详情：最后更新提示、延伸阅读（相关/随机文章抽样）、以及文章尾部分享区块（总开关、海报生成与封面配置） |
 | `commentConfig.ts` | 评论系统：全局开关（默认关闭）、Provider 选择（Twikoo 等）、视口懒加载与服务凭据配置 |
+| `contextMenuConfig.ts` | 桌面端右键增强：可选开关（当前默认开启）；配置允许页面与操作顺序，关闭时零 DOM、零监听器、零客户端资源 |
+| `umamiConfig.ts` | Umami 统计：全局开关（默认关闭）、公开分享统计读取，以及可选的官方访问采集脚本配置；支持内容仓 `config/umami.yaml` 覆盖（领域键 `umami`） |
 | `skillsConfig.ts` | 技能页行为控制：页面总开关、分类清单与单项禁用列表（技能内容维护在 `src/data/skills.ts`）；关闭页面时导航入口同步隐藏 |
 | `projectsConfig.ts` | 项目页行为控制：页面总开关、分类清单与单项禁用列表（项目内容维护在 `src/data/projects.ts`）；关闭页面时导航入口同步隐藏 |
 | `timelineConfig.ts` | 时间线页行为控制：页面总开关、分类清单、排序方向与单项禁用列表（时间线内容维护在 `src/data/timeline.ts`）；关闭页面时导航入口同步隐藏 |
 | `devicesConfig.ts` | 设备页行为控制：页面总开关、场景分类清单与单项禁用列表（设备清单维护在 `src/data/devices.ts`）；关闭页面时导航入口同步隐藏 |
 | `animeConfig.ts` | 番剧页与外部追番数据源：数据源选择（本地 / Bangumi 快照 / Bilibili 快照）、失败降级、提供方凭据环境配置与快照生命周期管理（本地番剧维护在 `src/data/anime.ts`） |
-| `llmsConfig.ts` | 大语言模型与 AI 友好内容系统：`/llms.txt`（索引）与 `/llms-full.txt`（全量正文汇编）静态端点生成控制、加密文章过滤、排除标签与自定义章节配置 |
+| `llmsConfig.ts` | 大语言模型与 AI 友好内容系统：`/llms.txt`（索引）与 `/llms-full.txt`（全量正文汇编）静态端点生成控制、加密文章过滤、排除标签与自定义章节配置；支持内容仓 `config/llms.yaml` 覆盖（领域键 `llms`） |
 
 非首页 Banner 的标题、说明和可选日期由各页面通过 `MainGridLayout` 提供，并在 Swup 导航后从被替换的主内容容器同步。该上下文默认显示、不设配置开关；说明为空或与标题相同时自动省略，移动端非首页仍沿用紧凑布局并隐藏 Banner。
 

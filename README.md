@@ -1,16 +1,16 @@
 <div align="center">
 
+<img src="./public/logo/icon.webp" width="88" height="88" alt="Shirone logo" />
+
 # Shirone
 
-<sub>✦ Where stories gather color, and every page begins with a little spell. ✦</sub>
+**An expressive, anime-inspired blog theme built on Material 3 Expressive.**
 
-An expressive, anime-inspired blog theme built on Material 3.
+A calm reading space for long-form writing, personal collections, and the small details that make a site feel like yours.
 
-Crafted by [matsuzaka-yuki](https://github.com/matsuzaka-yuki)
+[Live demo](https://shirone.mysqil.com/) · [Documentation](https://docs.shirone.mysqil.com/) · [Report an issue](https://github.com/LyraVoid/Shirone/issues)
 
-[Live demo](https://shirone.mysqil.com/) · [Documentation](./docs/) · [Report an issue](https://github.com/LyraVoid/Shirone/issues)
-
-[English](./README.md) | [简体中文](./README.zh-CN.md) | [繁體中文](./README.zh-TW.md) | [日本語](./README.ja.md)
+[English](./README.md) · [简体中文](./README.zh-CN.md) · [繁體中文](./README.zh-TW.md) · [日本語](./README.ja.md)
 
 ![Node.js >= 22.12](https://img.shields.io/badge/Node.js-%3E%3D22.12-5FA04E?logo=nodedotjs&logoColor=white)
 ![pnpm 9](https://img.shields.io/badge/pnpm-9-F69220?logo=pnpm&logoColor=white)
@@ -18,6 +18,19 @@ Crafted by [matsuzaka-yuki](https://github.com/matsuzaka-yuki)
 [![License: MIT](https://img.shields.io/badge/License-MIT-3DA639.svg)](./LICENSE)
 
 </div>
+
+> [!IMPORTANT]
+> **Start with the [online documentation](https://docs.shirone.mysqil.com/).** It is the primary guide for setup, configuration, content workflows, and deployment.
+
+## Start Here
+
+The [online documentation](https://docs.shirone.mysqil.com/) is the main entry point for setup, configuration, content workflows, and deployment. This repository contains the theme source; use [Shirone-Content](https://github.com/LyraVoid/Shirone-Content) when you want to keep personal content in a separate repository.
+
+## Verified In Practice
+
+The current reference run scores 100 for Performance, Accessibility, Best Practices, and SEO, with all three agentic browsing checks passing. The detailed performance metrics also reach 100 in this run; results can vary with hosting, content, and network conditions.
+
+![Shirone benchmark](./Benchmark.webp)
 
 ![Shirone homepage](./public/assets/projects/shirone.webp)
 
@@ -31,9 +44,6 @@ Crafted by [matsuzaka-yuki](https://github.com/matsuzaka-yuki)
     <td align="center"><strong>Quiet by Design</strong><br><sub>SSR-first, accessible, and truly weightless when features are disabled.</sub></td>
   </tr>
 </table>
-
-> [!IMPORTANT]
-> Shirone is currently in alpha. Configuration and component APIs may change before the first stable release.
 
 ## ✦ A Small Spell for Every Story
 
@@ -57,6 +67,10 @@ The theme is designed for long-form writing as well as personal collections such
 - SSR-first output, keyboard-friendly interactions, and accessibility testing
 - Optional integrations follow a zero-burden rule: when disabled, they add no external requests, DOM, layout shift, or main-bundle code
 
+## ✦ AI Skills
+
+Shirone ships with [agent skills](./.agents/skills/README.md) in `.agents/skills/`. AI coding assistants that support the Agent Skills standard (Claude Code, Codex, ZCode, and others) discover them automatically after you clone the repository — developer-oriented skills guide theme development, while user-oriented skills help you write posts, use the custom Markdown syntaxes, and configure your site. To package the same skills as one installable Codex plugin, run `pnpm.cmd skills:package -- --zip`.
+
 ## Quick Start
 
 ### Requirements
@@ -78,6 +92,26 @@ Open `http://localhost:4321` in your browser.
 
 On Windows PowerShell installations where script execution is restricted, use `pnpm.cmd` and `npx.cmd` instead.
 
+### Use the npm package
+
+Prefer not to clone the theme? Install it as the `shirones` npm package and
+scaffold a blog from an empty folder — no Astro starter and no manual installs:
+
+```bash
+mkdir my-blog
+cd my-blog
+npx shirones init   # writes package.json, installs astro + the theme + peers
+pnpm dev
+```
+
+`init` creates `astro.config.mjs`, the typed configuration under `shirones/`,
+example content and static assets; `src/components/` and `src/layouts/` still
+work for overriding theme components. Re-run `npx shirones init` anytime to
+check for drift — it reports without changing anything. Run `npx shirones
+init --update` to restore missing files, or `--force` to re-scaffold from the
+template. See [npm package mode](./docs/npm-package-mode.md) and the
+[shirones repository](https://github.com/yCENzh/shirones) for details.
+
 ### Customize your site
 
 1. Set the canonical URL, title, language, theme, banner, and display options in `src/config/siteConfig.ts`.
@@ -87,6 +121,15 @@ On Windows PowerShell installations where script execution is restricted, use `p
 5. Create a post with `pnpm new-post <filename>`, then edit it under `src/content/posts/`.
 
 See [`src/config/README.md`](./src/config/README.md) for the complete configuration contract.
+
+## Official Companion Repositories
+
+Shirone keeps theme source, personal site content, and npm publishing responsibilities separate. These official repositories serve different workflows:
+
+| Repository | Use it for | What it contains |
+| --- | --- | --- |
+| [Shirone-Content](https://github.com/LyraVoid/Shirone-Content) | Running a blog in the external-content, dual-repository mode | A content template for posts, moments, data, media, and `config/*.yaml` overlays. Fork or clone it into your own repository, normally private, then point this theme repository at it. See the [content-separation guide](./docs/content-separation/README.md). |
+| [shirones](https://github.com/yCENzh/shirones) | Maintaining and publishing the `shirones` npm package | The manual build-and-publish pipeline. It pulls this repository at build time and deliberately contains no theme source; regular blog users install `shirones` rather than working in this repository. See [npm package mode](./docs/npm-package-mode.md). |
 
 ## Main Configuration
 
@@ -157,9 +200,12 @@ Use `pnpm build` as the build command and `dist` as the output directory. More d
 - [`docs/m3e-standard.md`](./docs/m3e-standard.md) - design tokens and component standard
 - [`docs/atomic-structure.md`](./docs/atomic-structure.md) - component layers and dependency rules
 - [`docs/markdown-extensions.md`](./docs/markdown-extensions.md) - Markdown plugin, styling, cache, and testing contracts
+- [`docs/markdown-on-demand-loading.md`](./docs/markdown-on-demand-loading.md) - content-driven Markdown asset loading and Swup lifecycle
 - [`docs/sidebar-system.md`](./docs/sidebar-system.md) - sidebar orchestration and Swup synchronization
 - [`docs/on-demand-loading.md`](./docs/on-demand-loading.md) - zero-burden optional features
 - [`docs/font-system.md`](./docs/font-system.md) - font configuration and production subsetting
+- [`docs/npm-package-mode.md`](./docs/npm-package-mode.md) - how the theme also runs as an npm package, and the override system
+- [`docs/packaging-contract.md`](./docs/packaging-contract.md) - rules new theme code must follow to keep working when installed from npm
 
 ## Contributing
 

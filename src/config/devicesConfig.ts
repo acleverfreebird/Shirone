@@ -1,4 +1,5 @@
 import type { DevicesConfig } from "@/types/devicesConfig";
+import { withUserConfig } from "../utils/config-overlay.ts";
 
 /**
  * 设备展示页行为与展示配置。
@@ -10,7 +11,7 @@ import type { DevicesConfig } from "@/types/devicesConfig";
  *
  * 注：设备的具体清单数据（设备名、品牌、规格、感受说明、图片等）请在 `src/data/devices.ts` 中维护。
  */
-export const devicesConfig: DevicesConfig = {
+export const devicesConfig: DevicesConfig = withUserConfig("devices", {
 	enable: false,
 	categories: [
 		{
@@ -39,4 +40,4 @@ export const devicesConfig: DevicesConfig = {
 		},
 	],
 	// disabledIds: [],
-};
+});

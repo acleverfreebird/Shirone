@@ -1,16 +1,16 @@
 <div align="center">
 
+<img src="./public/logo/icon.webp" width="88" height="88" alt="Shirone 圖示" />
+
 # Shirone
 
-<sub>✦ 讓文字染上色彩，讓每一次翻頁都像小小的魔法開始。✦</sub>
+**一款以 Material 3 Expressive 為基礎、富有表現力的二次元部落格主題。**
 
-一款以 Material 3 為基礎、富有表現力的二次元部落格主題。
+為長文寫作、個人收藏，以及讓網站真正屬於你的細節而生的安靜閱讀空間。
 
-由 [matsuzaka-yuki](https://github.com/matsuzaka-yuki) 用心製作
+[線上預覽](https://shirone.mysqil.com/) · [專案文件](https://docs.shirone.mysqil.com/) · [回報問題](https://github.com/LyraVoid/Shirone/issues)
 
-[線上預覽](https://shirone.mysqil.com/) · [專案文件](./docs/) · [回報問題](https://github.com/LyraVoid/Shirone/issues)
-
-[English](./README.md) | [简体中文](./README.zh-CN.md) | [繁體中文](./README.zh-TW.md) | [日本語](./README.ja.md)
+[English](./README.md) · [简体中文](./README.zh-CN.md) · [繁體中文](./README.zh-TW.md) · [日本語](./README.ja.md)
 
 ![Node.js >= 22.12](https://img.shields.io/badge/Node.js-%3E%3D22.12-5FA04E?logo=nodedotjs&logoColor=white)
 ![pnpm 9](https://img.shields.io/badge/pnpm-9-F69220?logo=pnpm&logoColor=white)
@@ -18,6 +18,19 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-3DA639.svg)](./LICENSE)
 
 </div>
+
+> [!IMPORTANT]
+> **請先閱讀[線上文件](https://docs.shirone.mysqil.com/)。** 主題設定、內容工作流程與部署說明均以此為主要入口。
+
+## 從這裡開始
+
+[線上文件](https://docs.shirone.mysqil.com/)是設定主題、管理內容和部署網站的主要入口。本儲存庫包含主題原始碼；如果希望將個人內容獨立管理，請使用 [Shirone-Content](https://github.com/LyraVoid/Shirone-Content)。
+
+## 實測表現
+
+目前參考跑分中，Performance、Accessibility、Best Practices 和 SEO 均為 100，Agentic browsing 三項檢查全部通過。詳細效能指標在本次測試中同樣達到 100；實際結果會因託管環境、內容和網路條件而變化。
+
+![Shirone 效能跑分](./Benchmark.webp)
 
 ![Shirone 首頁](./public/assets/projects/shirone.webp)
 
@@ -31,9 +44,6 @@
     <td align="center"><strong>安靜守護</strong><br><sub>SSR 優先、無障礙友善，可選功能停用時真正不留負擔。</sub></td>
   </tr>
 </table>
-
-> [!IMPORTANT]
-> Shirone 目前仍處於 Alpha 階段，首個穩定版本發佈前，設定與元件 API 可能有所變更。
 
 ## ✦ 寫給每個故事的小小咒語
 
@@ -78,6 +88,19 @@ pnpm dev
 
 若 Windows PowerShell 的指令碼執行原則阻止命令執行，請改用 `pnpm.cmd` 與 `npx.cmd`。
 
+### 使用 npm 套件
+
+不想複製主題儲存庫？可以將 Shirone 安裝為 `shirones` npm 套件，在空資料夾中初始化部落格——無需 Astro 起始範本，也無需手動安裝依賴：
+
+```bash
+mkdir my-blog
+cd my-blog
+npx shirones init   # 寫入 package.json，安裝 astro、主題及其 peer 依賴
+pnpm dev
+```
+
+`init` 會建立 `astro.config.mjs`、`shirones/` 下的型別化設定、範例內容與靜態資源；你依然可以透過 `src/components/` 與 `src/layouts/` 覆寫主題元件。隨時重新執行 `npx shirones init` 檢查漂移（只報告、不修改）；執行 `npx shirones init --update` 還原缺失檔案，或 `--force` 從範本重新初始化。詳見 [npm 套件模式](./docs/npm-package-mode.md) 與 [shirones 儲存庫](https://github.com/yCENzh/shirones)。
+
 ### 自訂網站
 
 1. 在 `src/config/siteConfig.ts` 設定正式網址、標題、語言、主題、橫幅與顯示選項。
@@ -87,6 +110,15 @@ pnpm dev
 5. 使用 `pnpm new-post <filename>` 建立文章，再到 `src/content/posts/` 編輯。
 
 完整設定契約請參閱 [`src/config/README.md`](./src/config/README.md)。
+
+## 官方配套儲存庫
+
+Shirone 將主題原始碼、個人網站內容與 npm 發布職責分離；下列官方儲存庫分別服務不同工作流程：
+
+| 儲存庫 | 適用情境 | 包含內容 |
+| --- | --- | --- |
+| [Shirone-Content](https://github.com/LyraVoid/Shirone-Content) | 使用外部內容來源的雙儲存庫網誌 | 文章、動態、資料、媒體與 `config/*.yaml` 覆寫的內容範本。請 Fork 或複製到自己的儲存庫（通常設為私有），再讓本主題儲存庫指向它。參閱[內容分離指南](./docs/content-separation/README.md)。 |
+| [shirones](https://github.com/yCENzh/shirones) | 維護與發布 `shirones` npm 套件 | 手動建置與發布流程。它在建置時拉取本儲存庫，並刻意不保存主題原始碼；一般網誌使用者應安裝 `shirones`，不需要直接使用此儲存庫。參閱 [npm 套件模式](./docs/npm-package-mode.md)。 |
 
 ## 核心設定
 

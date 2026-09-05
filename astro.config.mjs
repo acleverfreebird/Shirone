@@ -16,6 +16,7 @@ import { resolvedFontOptions } from "./src/config/fontConfig.ts";
 import { musicConfig, resolveMusicOptions } from "./src/config/musicConfig.ts";
 import { sidebarConfig } from "./src/config/sidebarConfig.ts";
 import { siteConfig } from "./src/config/siteConfig.ts";
+import { resolveUmamiOptions, umamiConfig } from "./src/config/umamiConfig.ts";
 import { pluginCustomCopyButton } from "./src/plugins/expressive-code/custom-copy-button.js";
 import { pluginLanguageBadge } from "./src/plugins/expressive-code/language-badge.ts";
 import { getLocalFontVariants } from "./src/utils/font-options.ts";
@@ -28,6 +29,15 @@ const musicWidgetEnabled =
 	);
 const musicFeatureEnabled =
 	resolveMusicOptions(musicConfig) !== null && musicWidgetEnabled;
+
+const resolvedUmamiOptions = resolveUmamiOptions(umamiConfig);
+const umamiIntegration = resolvedUmamiOptions
+	? (await import("oddmisc/astro")).oddmisc({
+				umami: {
+					shareUrl: resolvedUmamiOptions.shareUrl,
+				},
+			})
+	: null;
 const musicSidebarModuleId = "virtual:shirone-music-sidebar";
 const resolvedMusicSidebarModuleId = `\0${musicSidebarModuleId}`;
 
@@ -61,6 +71,13 @@ const optionalMusicSidebarPlugin = {
 };
 
 const isBuildCommand = process.argv.includes("build");
+const isDevCommand = process.argv.includes("dev");
+const iconifyOfflineIconPath = fileURLToPath(
+	new URL("./node_modules/@iconify/svelte/dist/OfflineIcon.svelte", import.meta.url),
+);
+const iconifyOfflineFunctionsPath = fileURLToPath(
+	new URL("./node_modules/@iconify/svelte/dist/offline-functions.js", import.meta.url),
+);
 
 function resolveVariantSrc(file) {
 	if (isBuildCommand && resolvedFontOptions.subsetting?.enable) {
@@ -72,8 +89,8 @@ function resolveVariantSrc(file) {
 		}
 		throw new Error(
 			`[font-system] Missing required subset font: ${subsetPath}. ` +
-				`Font subsetting is enabled for production builds, but the subset file was not found. ` +
-				`Ensure 'pnpm.cmd fonts:subset' ran successfully before building.`,
+				"Font subsetting is enabled for production builds, but the subset file was not found. " +
+				"Ensure 'pnpm.cmd fonts:subset' ran successfully before building.",
 		);
 	}
 	return `./${file}`;
@@ -139,7 +156,8 @@ export default defineConfig({
 	trailingSlash: "always",
 	fonts: configuredFonts,
 	integrations: [
-		swup({
+			...(umamiIntegration ? [umamiIntegration] : []),
+			swup({
 			theme: false,
 			ignore: 'a[href="#"]',
 			animationClass: "transition-swup-",
@@ -150,7 +168,10 @@ export default defineConfig({
 			accessibility: true,
 			updateHead: {
 				awaitAssets: false,
-				persistTags: "link[rel=stylesheet], style",
+				// Keep base styles across Swup visits, but let syntax-scoped styles
+				// disappear when the destination page no longer declares them.
+				persistTags:
+					"link[rel=stylesheet]:not([data-swup-optional]), style:not([data-swup-optional])",
 			},
 			updateBodyClass: false,
 			globalInstance: true,
@@ -216,6 +237,9 @@ export default defineConfig({
 			compilerOptions: {
 				// CSS-source hashing keeps SSR and client scope hashes stable after moves.
 				cssHash: ({ css, hash }) => `svelte-${hash(css)}`,
+				// Keep repeated Svelte compiler diagnostics out of the dev terminal;
+				// check/build still surface the full warning set in CI.
+				warningFilter: () => !isDevCommand,
 			},
 		}),
 		sitemap(),
@@ -230,6 +254,14 @@ export default defineConfig({
 	vite: {
 		resolve: {
 			alias: [
+				{
+					find: "@shirone/iconify-offline",
+					replacement: iconifyOfflineIconPath,
+				},
+				{
+					find: "@shirone/iconify-offline-functions",
+					replacement: iconifyOfflineFunctionsPath,
+				},
 				{
 					find: /^@iconify\/svelte$/,
 					replacement: fileURLToPath(

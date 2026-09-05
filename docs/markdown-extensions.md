@@ -1,4 +1,7 @@
 # Markdown 扩展开发规范
+> 插件注册顺序、阶段依赖和变更验收以 [`markdown-plugin-order.md`](./markdown-plugin-order.md) 为准。
+
+> Markdown 语法的内容特征、条件样式包、动态运行时和 Swup 资源生命周期见 [`markdown-on-demand-loading.md`](./markdown-on-demand-loading.md)。
 
 > 本文档定义 Shirone 的 remark/rehype 扩展、生成式 Markdown 小组件、全局内容样式、缓存刷新和验证契约。
 
@@ -215,3 +218,17 @@ Admonitions、Collapse Panels、Option Groups、Marker、File Tree、Code Tree�
 - [ ] 没有使用 `!important` 对抗 Typography 或 cascade layer；
 - [ ] 清理内容缓存后验证过真实输出；
 - [ ] 单元测试、Playwright、a11y、Astro Check 与构建通过。
+
+## 6.10 文件导入
+
+使用独立一行的 HTML 注释，将仓库内 Markdown 文件在构建期展开到当前文章：
+
+```markdown
+<!-- @include: ../snippets/example.md -->
+<!-- @include: ../snippets/example.md{2-6} -->
+<!-- @include: ../snippets/example.md{5-} -->
+<!-- @include: ../snippets/example.md{-4} -->
+<!-- @include: ../snippets/example.md#region-name -->
+```
+
+路径相对当前 Markdown 文件解析，也可使用仓库根目录相对路径。行号从 1 开始且包含首尾行；区域由源文件中的 `#region name` 与 `#endregion` 标记界定。缺失文件、非法范围、未闭合区域、仓库外路径和递归包含都会保留原注释。代码围栏中的 include 注释不会展开。

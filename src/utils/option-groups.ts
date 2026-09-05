@@ -212,7 +212,4 @@ export function initOptionGroups(container: ParentNode = document): void {
 	document.addEventListener("click", onClick);
 	document.addEventListener("keydown", onKeydown);
 	document.addEventListener("wheel", onWheel, { passive: false });
-	document.addEventListener("swup:content:replace", () => {
-		queueMicrotask(() => initOptionGroups());
-	});
 }

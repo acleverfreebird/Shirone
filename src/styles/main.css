@@ -1,5 +1,13 @@
-@import "./mermaid.css" layer(components);
 @import "tailwindcss";
+
+/* Tailwind v4 discovers utility classes by scanning the project, and it always
+   skips `node_modules`. That is exactly where the theme lives once it is
+   installed as an npm package, so without this the utilities used by the
+   theme's own components (`w-full`, `inline-flex`, `mx-auto`, …) are never
+   generated and the site renders unstyled. Sources are resolved relative to
+   this file, so `../` is the theme's `src/`, in both source and package mode.
+   Only code files are scanned — fonts and images stay out of the crawl. */
+@source "../**/*.{astro,svelte,ts,tsx,js,jsx,mjs,cjs,md,mdx,html}";
 @plugin "@tailwindcss/typography";
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -16,7 +24,6 @@
 @import "./markdown-typography.css" layer(utilities);
 /* Expressive Code ships unlayered reset styles, so its scoped overrides must
    also remain unlayered to participate in the same cascade. */
-@import "./expressive-code.css";
 @import "./toc.css" layer(components);
 @import "./image-bloom.css" layer(components);
 
@@ -138,17 +145,6 @@
 
 .collapsed {
     height: var(--collapsedHeight);
-}
-
-.custom-md spoiler {
-  @apply bg-[var(--codeblock-bg)] hover:bg-transparent px-1 py-0.5 overflow-hidden rounded-md transition-all duration-150;
-
-  &:not(:hover) {
-    color: var(--codeblock-bg);
-    * {
-        color: var(--codeblock-bg);
-    }
-  }
 }
 
 /* 减少动态效果：手动开关（html.motion-reduced）或系统偏好（prefers-reduced-motion）

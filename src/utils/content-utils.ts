@@ -1,54 +1,62 @@
-import { type CollectionEntry, getCollection } from "astro:content";
+﻿import { type CollectionEntry, getCollection } from "astro:content";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
+import {
+	comparePublicationEntries,
+	validatePublicationMetadata,
+} from "@utils/content-date";
 import { siteMarkdownProcessor } from "@utils/markdown-processor";
-import { getCategoryUrl } from "@utils/url-utils.ts";
+import { initPostIdMap } from "@utils/permalink-utils";
+import { getCategoryUrl, getPostUrl } from "@utils/url-utils";
 
 // // Retrieve posts and sort them by publication date
-async function getRawSortedPosts() {
+async function getRawSortedPosts(): Promise<CollectionEntry<"posts">[]> {
 	const allBlogPosts = await getCollection("posts", ({ data }) => {
 		return import.meta.env.PROD ? data.draft !== true : true;
 	});
 
-	const sorted = allBlogPosts.sort((a, b) => {
-		if (a.data.pinned !== b.data.pinned) return a.data.pinned ? -1 : 1;
-
-		const dateA = new Date(a.data.published);
-		const dateB = new Date(b.data.published);
-		return dateA > dateB ? -1 : 1;
-	});
+	for (const post of allBlogPosts) validatePublicationMetadata(post);
+	const sorted = allBlogPosts.sort(comparePublicationEntries);
+	initPostIdMap(sorted);
 	return sorted;
 }
 
-export async function getSortedPosts() {
+export async function getSortedPosts(): Promise<CollectionEntry<"posts">[]> {
 	const sorted = await getRawSortedPosts();
 
 	for (let i = 1; i < sorted.length; i++) {
 		sorted[i].data.nextSlug = sorted[i - 1].id;
 		sorted[i].data.nextTitle = sorted[i - 1].data.title;
+		sorted[i].data.nextUrl = getPostUrl(sorted[i - 1]);
 	}
 	for (let i = 0; i < sorted.length - 1; i++) {
 		sorted[i].data.prevSlug = sorted[i + 1].id;
 		sorted[i].data.prevTitle = sorted[i + 1].data.title;
+		sorted[i].data.prevUrl = getPostUrl(sorted[i + 1]);
 	}
 
 	return sorted;
 }
+
 export type PostForList = {
 	slug: string;
 	data: CollectionEntry<"posts">["data"];
+	url?: string;
 };
+
 export async function getSortedPostsList(): Promise<PostForList[]> {
 	const sortedFullPosts = await getRawSortedPosts();
 
-	// delete post.body
-	const sortedPostsList = sortedFullPosts.map((post) => ({
+	// delete post.body, attach pre-calculated URL
+	const sortedPostsList: PostForList[] = sortedFullPosts.map((post) => ({
 		slug: post.id,
 		data: post.data,
+		url: getPostUrl(post),
 	}));
 
 	return sortedPostsList;
 }
+
 export type Tag = {
 	name: string;
 	count: number;
@@ -168,12 +176,7 @@ export async function getSortedMoments(): Promise<MomentItem[]> {
 		return import.meta.env.PROD ? data.draft !== true : true;
 	});
 
-	const sorted = entries.sort((a, b) => {
-		if (a.data.pinned !== b.data.pinned) return a.data.pinned ? -1 : 1;
-		const dateA = new Date(a.data.published);
-		const dateB = new Date(b.data.published);
-		return dateA > dateB ? -1 : 1;
-	});
+	const sorted = entries.sort(comparePublicationEntries);
 
 	momentsRendererPromise ??= siteMarkdownProcessor.createRenderer({});
 	const renderer = await momentsRendererPromise;

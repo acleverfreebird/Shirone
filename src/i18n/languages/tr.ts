@@ -1,5 +1,5 @@
-import Key from "../i18nKey";
-import type { Translation } from "../translation";
+import Key from "../i18nKey-runtime.mjs";
+import type { Translation } from "../translation.ts";
 
 export const tr: Translation = {
 	[Key.home]: "Anasayfa",
@@ -141,6 +141,13 @@ export const tr: Translation = {
 	[Key.recentPosts]: "Son Paylaşımlar",
 	[Key.tableOfContents]: "İçindekiler",
 	[Key.formulaScrollable]: "Yatay kaydırılabilir formül",
+	[Key.fieldRequired]: "Zorunlu",
+	[Key.fieldOptional]: "İsteğe bağlı",
+	[Key.fieldDeprecated]: "Kullanımdan kaldırıldı",
+	[Key.codeBlockExpand]: "Kod bloğunu genişlet",
+	[Key.codeBlockCollapse]: "Kod bloğunu daralt",
+	[Key.codeTreeExpand]: "Kod ağacını genişlet",
+	[Key.codeTreeCollapse]: "Genişletilmiş görünümü kapat",
 	[Key.announcement]: "Duyuru",
 	[Key.announcementClose]: "Duyuruyu Kapat",
 
@@ -172,6 +179,8 @@ export const tr: Translation = {
 	[Key.statsToday]: "Bugün",
 	[Key.statsYesterday]: "Dün",
 	[Key.statsDaysAgo]: "{days} gün önce",
+	[Key.profileStatsPageViews]: "Sayfa görüntüleme",
+	[Key.profileStatsVisits]: "Ziyaret",
 
 	[Key.calendar]: "Takvim",
 	[Key.calendarBackToday]: "Bugüne dön",
@@ -253,7 +262,9 @@ export const tr: Translation = {
 	[Key.randomReadingSubtitle]: "Diğer yazılardan tutarlı bir seçim",
 	[Key.copySuccess]: "Panoya kopyalandı",
 	[Key.copyLink]: "Bağlantıyı kopyala",
+	[Key.copySelection]: "Kopyala",
 	[Key.copyFailed]: "Bağlantı kopyalanamadı. Lütfen manuel kopyalayın.",
+	[Key.sharePageLink]: "Sayfa bağlantısını paylaş",
 
 	[Key.shareArticle]: "Makaleyi Paylaş",
 	[Key.shareArticleDescription]:

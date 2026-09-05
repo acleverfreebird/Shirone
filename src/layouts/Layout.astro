@@ -2,12 +2,17 @@
 import { Font } from "astro:assets";
 import Snackbar from "@components/atoms/overlay/Snackbar.svelte";
 import ConfigCarrier from "@components/system/ConfigCarrier.astro";
+import UmamiRuntime from "@components/system/UmamiRuntime.astro";
+import { resolveAsset } from "@utils/asset-utils";
+import { pathsEqual, toAbsoluteUrl, url } from "@utils/url-utils";
 import {
 	expressiveCodeConfig,
 	profileConfig,
 	resolvedFontOptions,
 	resolveTextureOptions,
+	resolveUmamiOptions,
 	siteConfig,
+	umamiConfig,
 } from "@/config";
 import type { SidebarPage } from "@/types/sidebarConfig";
 import {
@@ -24,9 +29,6 @@ import { defaultFavicons } from "../constants/icon";
 import type { Favicon } from "../types/config";
 import { createFontRoleStyle } from "../utils/font-options";
 import { resolvePageWidth } from "../utils/responsive-utils";
-import { pathsEqual, url } from "../utils/url-utils";
-import "katex/dist/katex.css";
-import "overlayscrollbars/overlayscrollbars.css";
 import "../styles/main.css";
 import "../styles/font-faces.css";
 import textureStyles from "../styles/textures.css?raw";
@@ -34,16 +36,34 @@ import textureStyles from "../styles/textures.css?raw";
 interface Props {
 	title?: string;
 	banner?: string;
+	ogImage?: string;
 	description?: string;
 	lang?: string;
 	setOGTypeArticle?: boolean;
 	page?: SidebarPage;
 }
 
-let { title, description, lang, setOGTypeArticle, page } = Astro.props;
+let { title, banner, ogImage, description, lang, setOGTypeArticle, page } =
+	Astro.props;
 
 const initialPage =
 	page ?? (pathsEqual(Astro.url.pathname, url("/")) ? "home" : undefined);
+
+// `Astro.url` in a static build does not inherit a `site` set through an
+// integration's `updateConfig()` — Astro snapshots the build origin in the
+// build constructor before the `astro:config:setup` hook runs. Derive the
+// absolute URL from `Astro.site` ourselves so og/twitter URLs stay correct.
+const canonicalUrl = Astro.site
+	? new URL(Astro.url.pathname + Astro.url.search, Astro.site)
+	: Astro.url;
+const defaultSocialImage =
+	siteConfig.ogImage ||
+	siteConfig.banner.src.desktop[0] ||
+	siteConfig.banner.src.mobile[0] ||
+	"";
+const candidateOgImage = ogImage || banner || defaultSocialImage;
+const resolvedOgImage = await resolveAsset(candidateOgImage);
+const absoluteOgImage = toAbsoluteUrl(resolvedOgImage, canonicalUrl);
 
 const configHue = siteConfig.themeColor.hue;
 const lightTheme =
@@ -54,6 +74,7 @@ const textureOptions = resolveTextureOptions();
 const defaultTexturePreset = textureOptions.defaultPreset;
 const defaultTextureOpacity = textureOptions.defaultOpacity;
 const textureEnabled = textureOptions.enable;
+const umamiOptions = resolveUmamiOptions(umamiConfig);
 
 const hasDesktopBanner = siteConfig.banner.src.desktop.length > 0;
 const hasMobileBanner = siteConfig.banner.src.mobile.length > 0;
@@ -94,19 +115,21 @@ const hasMonoFont =
 		<meta name="author" content={profileConfig.name}>
 
 		<meta property="og:site_name" content={siteConfig.title}>
-		<meta property="og:url" content={Astro.url}>
+		<meta property="og:url" content={canonicalUrl}>
 		<meta property="og:title" content={pageTitle}>
 		<meta property="og:description" content={description || pageTitle}>
+		{absoluteOgImage && <meta property="og:image" content={absoluteOgImage} />}
 		{setOGTypeArticle ? (
 			<meta property="og:type" content="article" />
 		) : (
 			<meta property="og:type" content="website" />
 		)}
 
-		<meta name="twitter:card" content="summary_large_image">
-		<meta property="twitter:url" content={Astro.url}>
+		<meta name="twitter:card" content={absoluteOgImage ? "summary_large_image" : "summary"}>
+		<meta property="twitter:url" content={canonicalUrl}>
 		<meta name="twitter:title" content={pageTitle}>
 		<meta name="twitter:description" content={description || pageTitle}>
+		{absoluteOgImage && <meta name="twitter:image" content={absoluteOgImage} />}
 
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
@@ -115,6 +138,9 @@ const hasMonoFont =
 		{hasBodyFont && <Font cssVariable={resolvedFontOptions.roles.body.cssVariable as never} preload={resolvedFontOptions.roles.body.preload} />}
 		{hasCjkFont && <Font cssVariable={resolvedFontOptions.roles.cjk.cssVariable as never} preload={resolvedFontOptions.roles.cjk.preload} />}
 		{hasMonoFont && <Font cssVariable={resolvedFontOptions.roles.mono.cssVariable as never} preload={resolvedFontOptions.roles.mono.preload} />}
+		{umamiOptions?.websiteId && umamiOptions.scriptUrl && (
+			<script is:inline async src={umamiOptions.scriptUrl} data-website-id={umamiOptions.websiteId} data-auto-track="true"></script>
+		)}
 				{favicons.map(favicon => (
 			<link rel="icon"
 				href={favicon.src.startsWith('/') ? url(favicon.src) : favicon.src}
@@ -193,6 +219,7 @@ const hasMonoFont =
 		data-banner-has-mobile={String(hasMobileBanner)}
 	>
 		<ConfigCarrier></ConfigCarrier>
+		{umamiOptions && <UmamiRuntime />}
 		{textureEnabled && (
 			<div
 				id="m3e-texture-canvas"
@@ -246,12 +273,10 @@ const hasMonoFont =
 </style>
 
 <script>
-import "../utils/code-collapse";
 import { initLastUpdatedNotices } from "../utils/last-updated-notice";
-import { initMermaidDiagrams } from "../utils/mermaid";
-import { OverlayScrollbars } from 'overlayscrollbars';
 import {getHue, getStoredTheme, setHue, setTheme} from "../utils/setting-utils";
 import { WALLPAPER_MODE_CHANGE_EVENT, BANNER_HEIGHT, BANNER_HEIGHT_EXTEND } from "../constants/constants";
+import { copyPageLink } from "../utils/copy-page-link";
 
 function setClickOutsideToClose(panel: string, ignores: string[]) {
 	document.addEventListener('click', event => {
@@ -271,34 +296,19 @@ setClickOutsideToClose('search-panel', ['search-panel', 'search-bar', 'search-sw
 function loadTheme() { setTheme(getStoredTheme()); }
 function loadHue() { setHue(getHue()); }
 
-function initCustomScrollbar() {
-	const katexElements = document.querySelectorAll('.katex-display') as NodeListOf<HTMLElement>;
-	const observer = new IntersectionObserver((entries, intersectionObserver) => {
-		entries.forEach(entry => {
-			if (!entry.isIntersecting) return;
-			const element = entry.target as HTMLElement;
-			if (!element.parentNode || element.hasAttribute('data-scrollbar-initialized')) return;
-			const container = document.createElement('div');
-			container.className = 'katex-display-container';
-			container.setAttribute('aria-label', 'scrollable container for formulas');
-			element.parentNode.insertBefore(container, element);
-			container.appendChild(element);
-			OverlayScrollbars(container, { scrollbars: { theme: 'scrollbar-base scrollbar-auto', autoHide: 'leave', autoHideDelay: 500, autoHideSuspend: false } });
-			element.setAttribute('data-scrollbar-initialized', 'true');
-			intersectionObserver.unobserve(element);
-		});
-	}, { root: null, rootMargin: '100px', threshold: 0.1 });
-	katexElements.forEach(element => observer.observe(element));
-}
-
 function init() {
 	loadTheme();
 	loadHue();
-	initCustomScrollbar();
 }
 init();
 initLastUpdatedNotices();
-initMermaidDiagrams();
+
+document.addEventListener("click", async (event) => {
+	const target = event.target;
+	if (!(target instanceof Element) || !target.closest("#copy-post-link")) return;
+
+	void copyPageLink();
+});
 
 const setup = () => {
 	if (!window.swup || window.__shironeNavigationBound) return;
@@ -315,7 +325,6 @@ const setup = () => {
 		}, 200);
 	}
 	window.swup.hooks.on('link:click', () => document.documentElement.style.setProperty('--content-delay', '0ms'));
-	window.swup.hooks.on('content:replace', initCustomScrollbar);
 	window.swup.hooks.on('visit:start', () => {
 		window.clearTimeout(finishTimer);
 		visitActive = true;
@@ -359,14 +368,13 @@ scrollFunction();
 </script>
 
 <script>
-import { cleanupFancybox, initFancybox } from "../utils/fancybox-handler";
+import { bindFancyboxRuntime } from "../utils/fancybox-runtime";
 import { applyStoredLayoutMode } from "../utils/layout-mode";
 
+bindFancyboxRuntime();
+
 const setup = () => {
-	initFancybox();
-	window.swup.hooks.on("visit:start", cleanupFancybox);
 	window.swup.hooks.on("content:replace", () => {
-		initFancybox();
 		applyStoredLayoutMode(document.getElementById("post-list"));
 	});
 };

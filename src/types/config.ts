@@ -1,3 +1,5 @@
+export type { PermalinkConfig } from "./permalinkConfig.ts";
+
 import type { AUTO_MODE, DARK_MODE, LIGHT_MODE } from "@constants/constants";
 import type { TextureConfig } from "./textureConfig";
 
@@ -25,6 +27,8 @@ export type SiteConfig = {
 	base?: string;
 	title: string;
 	subtitle: string;
+	/** 默认社交媒体分享预览图（og:image / twitter:image），支持本地相对路径或远程绝对链接。未配置时自动回退为第一张桌面版横幅壁纸。 */
+	ogImage?: string;
 	topAppBar: {
 		/** 桌面端标题与导航内容组的对齐方式。 */
 		contentAlign: TopAppBarContentAlign;
@@ -44,6 +48,9 @@ export type SiteConfig = {
 		| "vi"
 		| "tr"
 		| "id";
+
+	/** IANA time zone used to interpret precise content timestamps. */
+	timeZone: string;
 
 	themeColor: {
 		hue: number;
@@ -152,12 +159,19 @@ export type BlogPostData = {
 	body: string;
 	title: string;
 	published: Date;
+	publishedAt?: Date;
+	updated?: Date;
+	updatedAt?: Date;
 	description: string;
 	tags: string[];
 	draft?: boolean;
 	image?: string;
 	category?: string;
+	alias?: string;
+	permalink?: string;
 	prevTitle?: string;
+	prevUrl?: string;
+	nextUrl?: string;
 	prevSlug?: string;
 	nextTitle?: string;
 	nextSlug?: string;

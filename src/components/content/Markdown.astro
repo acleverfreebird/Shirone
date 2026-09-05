@@ -9,45 +9,11 @@ const className = Astro.props.class;
 </div>
 
 <style lang="stylus" is:global>
-@import "../../styles/markdown-extend.styl"
+@import "../../styles/markdown/generic.styl"
 </style>
 
 <script>
-	import { initCodeCopyButtons } from "@utils/code-copy";
-	import { initCodeTrees } from "@utils/code-tree";
+	import { bindMarkdownRuntime } from "@utils/markdown-runtime";
 
-	initCodeCopyButtons();
-	initCodeTrees();
-
-	const OPTION_GROUP_SELECTOR = ".m3-option-group[data-option-group]";
-	const OPTION_GROUP_LOADER_BOUND = "optionGroupLoaderBound";
-	const initOptionGroupsWhenPresent = async () => {
-		if (!document.querySelector(OPTION_GROUP_SELECTOR)) return;
-		const { initOptionGroups } = await import("@utils/option-groups");
-		initOptionGroups();
-	};
-
-	const ABBREVIATION_SELECTOR = "abbr.m3-abbreviation[data-abbreviation-expansion]";
-	const ABBREVIATION_LOADER_BOUND = "abbreviationLoaderBound";
-	const initAbbreviationsWhenPresent = async () => {
-		if (!document.querySelector(ABBREVIATION_SELECTOR)) return;
-		const { initAbbreviations } = await import("@utils/abbreviations");
-		initAbbreviations();
-	};
-
-	if (document.documentElement.dataset[OPTION_GROUP_LOADER_BOUND] !== "true") {
-		document.documentElement.dataset[OPTION_GROUP_LOADER_BOUND] = "true";
-		void initOptionGroupsWhenPresent();
-		document.addEventListener("swup:content:replace", () => {
-			void initOptionGroupsWhenPresent();
-		});
-	}
-
-	if (document.documentElement.dataset[ABBREVIATION_LOADER_BOUND] !== "true") {
-		document.documentElement.dataset[ABBREVIATION_LOADER_BOUND] = "true";
-		void initAbbreviationsWhenPresent();
-		document.addEventListener("swup:content:replace", () => {
-			void initAbbreviationsWhenPresent();
-		});
-	}
+	bindMarkdownRuntime();
 </script>

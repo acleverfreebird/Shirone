@@ -56,6 +56,8 @@ test("wraps a standalone image with width token and title into a centered figure
 	assert.match(html, /alt="A demo image"/);
 	assert.match(html, /loading="lazy"/);
 	assert.match(html, /decoding="async"/);
+	assert.match(html, /width="\d+"/);
+	assert.match(html, /height="\d+"/);
 	assert.match(
 		html,
 		/<figcaption class="markdown-image-caption">Demo caption<\/figcaption>/,
