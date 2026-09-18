@@ -37,6 +37,27 @@ export function detectPluginMode(fromUrl: string): boolean {
 	return fromUrl.includes("/node_modules/") || fromUrl.includes("\\node_modules\\");
 }
 
+/**
+ * `true` when the theme executes from its own repository checkout (the
+ * git-clone/source workflow) rather than from an installed copy. In that case
+ * the "user" directories default to the repository's own `src/config`,
+ * `src/config/data` and `src/content` — the layout `astro.config.mjs` and the
+ * repo scripts have always assumed.
+ */
+export function detectInRepoMode(
+	projectRoot: string,
+	packageRoot: string,
+): boolean {
+	// `config.root` arrives as a `file:` URL *with* a trailing slash, so
+	// `fileURLToPath` yields `/path/to/repo/` while `findPackageRoot()` returns
+	// `/path/to/repo`. Strip the trailing separator before comparing, or every
+	// repository checkout is misdetected as package mode.
+	return (
+		normalisePath(projectRoot).toLowerCase() ===
+		normalisePath(packageRoot).toLowerCase()
+	);
+}
+
 function toAbsolute(projectRoot: string, candidate: string): string {
 	return isAbsolute(candidate) ? candidate : resolve(projectRoot, candidate);
 }
@@ -52,6 +73,7 @@ export function resolvePaths(
 	const projectRoot = fileURLToPath(projectRootUrl);
 	const packageRoot = findPackageRoot(moduleUrl);
 	const isPluginMode = detectPluginMode(moduleUrl);
+	const isInRepo = detectInRepoMode(projectRoot, packageRoot);
 
 	// In plugin mode the published tarball keeps sources under `src/`.
 	const packageSrc = existsSync(join(packageRoot, "src"))
@@ -61,17 +83,26 @@ export function resolvePaths(
 	const contentRootName = options.paths?.root ?? DEFAULT_CONTENT_ROOT;
 	const contentRoot = toAbsolute(projectRoot, contentRootName);
 
+	// Source mode points the "user" directories at the repository's own
+	// layout; an explicit `options.paths` entry always wins. Package mode
+	// keeps the `shirones/` content root.
 	const configDir = options.paths?.config
 		? toAbsolute(projectRoot, options.paths.config)
-		: join(contentRoot, "config");
+		: isInRepo
+			? join(packageSrc, "config")
+			: join(contentRoot, "config");
 
 	const dataDir = options.paths?.data
 		? toAbsolute(projectRoot, options.paths.data)
-		: join(configDir, "data");
+		: isInRepo
+			? join(packageSrc, "config", "data")
+			: join(configDir, "data");
 
 	const contentDir = options.paths?.content
 		? toAbsolute(projectRoot, options.paths.content)
-		: join(contentRoot, "content");
+		: isInRepo
+			? join(packageSrc, "content")
+			: join(contentRoot, "content");
 
 	return {
 		projectRoot,
@@ -82,10 +113,11 @@ export function resolvePaths(
 		contentDir,
 		cacheDir: join(projectRoot, CACHE_DIR_NAME),
 		isPluginMode,
+		isInRepo,
 	};
 }
 
 /** Normalise a filesystem path for comparison across platforms. */
 export function normalisePath(value: string): string {
-	return value.replace(/\\/g, "/");
+	return value.replace(/\\/g, "/").replace(/\/+$/, "");
 }

@@ -24,6 +24,7 @@ export interface DefineCollectionsOptions {
 		posts?: string;
 		moments?: string;
 		spec?: string;
+		series?: string;
 	};
 }
 
@@ -51,6 +52,14 @@ export const postSchema = z.object({
 	image: z.string().optional().default(""),
 	tags: z.array(z.string()).optional().default([]),
 	category: z.string().optional().nullable().default(""),
+	/** Series slug the post belongs to (empty = none; single series per post). */
+	series: z
+		.string()
+		.optional()
+		.default("")
+		.transform((value) => value.trim()),
+	/** Position inside the series; falls back to publication order when absent. */
+	seriesOrder: z.number().int().optional(),
 	lang: z.string().optional().default(""),
 
 	/* Post encryption */
@@ -62,7 +71,13 @@ export const postSchema = z.object({
 	passwordHint: z.string().optional().default(""),
 	hideHomeContent: z.boolean().optional().default(true),
 
-	/* Populated internally by the theme during collection post-processing */
+	/* Post alias & custom permalink */
+	alias: z.string().optional(),
+	permalink: z.string().optional(),
+
+	/* For internal use */
+	prevUrl: z.string().optional(),
+	nextUrl: z.string().optional(),
 	prevTitle: z.string().default(""),
 	prevSlug: z.string().default(""),
 	nextTitle: z.string().default(""),
@@ -93,6 +108,16 @@ export const momentSchema = z.object({
 export const specSchema = z.object({});
 
 /**
+ * Schema for series entities. Each entry is one series; the Markdown body is
+ * the optional overview rendered on the series page.
+ */
+export const seriesSchema = z.object({
+	title: z.string(),
+	status: z.enum(["ongoing", "completed"]).optional().default("ongoing"),
+	defaultCategory: z.string().optional().default(""),
+});
+
+/**
  * Build the `collections` export for `src/content.config.ts`.
  */
 export function defineCollections(options: DefineCollectionsOptions = {}) {
@@ -107,6 +132,9 @@ export function defineCollections(options: DefineCollectionsOptions = {}) {
 	const specBase = options.paths?.spec
 		? normaliseBase(options.paths.spec)
 		: `${root}/spec`;
+	const seriesBase = options.paths?.series
+		? normaliseBase(options.paths.series)
+		: `${root}/series`;
 
 	return {
 		posts: defineCollection({
@@ -116,6 +144,10 @@ export function defineCollections(options: DefineCollectionsOptions = {}) {
 		spec: defineCollection({
 			loader: glob({ base: specBase, pattern: "**/*.{md,mdx}" }),
 			schema: specSchema,
+		}),
+		series: defineCollection({
+			loader: glob({ base: seriesBase, pattern: "**/*.md" }),
+			schema: seriesSchema,
 		}),
 		moments: defineCollection({
 			loader: glob({ base: momentsBase, pattern: "**/*.md" }),

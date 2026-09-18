@@ -51,7 +51,7 @@ Shirone is a static personal blog theme built with Astro 7, Svelte 5, Tailwind C
 
 Behind that softness is a token-driven Material 3 Expressive component system. Content is rendered server-side, while Swup provides smooth in-site navigation and keeps the surrounding application shell alive between pages.
 
-The theme is designed for long-form writing as well as personal collections such as moments, albums, anime lists, friends, projects, skills, and timelines.
+The theme is designed for long-form writing as well as personal collections such as moments, albums, anime lists, friends, projects, skills, devices, games, series, and timelines.
 
 ## ✦ Inside the Grimoire
 
@@ -62,7 +62,7 @@ The theme is designed for long-form writing as well as personal collections such
 - Markdown and MDX content with math, Mermaid, admonitions, enhanced code blocks, and image galleries
 - Full-text search powered by Pagefind, plus RSS and sitemap output
 - Article table of contents, related posts, sharing, encryption, and optional comments
-- Dedicated pages for archives, categories, tags, friends, moments, anime, albums, projects, skills, and timelines
+- Dedicated pages for archives, categories, tags, friends, moments, anime, albums, projects, skills, devices, games, series, and timelines
 - Ten built-in interface locales
 - SSR-first output, keyboard-friendly interactions, and accessibility testing
 - Optional integrations follow a zero-burden rule: when disabled, they add no external requests, DOM, layout shift, or main-bundle code
@@ -182,7 +182,11 @@ Frequently used optional fields include `updated`, `pinned`, `comment`, `lang`, 
 
 Shirone produces a static `dist/` directory and can be deployed to Vercel, Netlify, GitHub Pages, or any static hosting service.
 
-Before deploying, update `site` and `base` in `src/config/siteConfig.ts`, then run:
+Before deploying, update `site` and `base` in `src/config/siteConfig.ts` (or in your content repository's `config/site.yaml`):
+- If deployed to a domain root (e.g., `https://example.com/` or a custom domain), keep `base` as `"/"`.
+- If deployed to a subpath directory (such as GitHub Pages repository URL `https://username.github.io/Shirone/`), set `base` to the subpath (e.g. `"/Shirone"` or `"/Shirone/"`), and set `site` to `https://username.github.io`. The build pipeline and internal assets will adapt automatically.
+
+Then run:
 
 ```bash
 pnpm install --frozen-lockfile

@@ -108,4 +108,10 @@ export interface ResolvedShironesPaths {
 	cacheDir: string;
 	/** True when running from `node_modules` (npm package mode). */
 	isPluginMode: boolean;
+	/**
+	 * True when the integration runs from the theme's own repository checkout
+	 * (the git-clone/source workflow). The repo build then relies on the
+	 * integration for everything `astro.config.mjs` used to spell out.
+	 */
+	isInRepo: boolean;
 }
