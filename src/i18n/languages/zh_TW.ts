@@ -169,6 +169,7 @@ export const zh_TW: Translation = {
 	[Key.announcementClose]: "關閉公告",
 
 	[Key.comments]: "評論",
+	[Key.commentsEditor]: "評論內容",
 	[Key.commentsLoading]: "正在載入評論...",
 	[Key.commentsLoadFailed]: "評論載入失敗",
 	[Key.commentsRequiresJavaScript]: "評論區需要啟用 JavaScript 才能顯示",
@@ -237,7 +238,7 @@ export const zh_TW: Translation = {
 	[Key.musicErrorAutoplayBlocked]: "自動播放受到限制，請點擊播放按鈕開始",
 	[Key.musicErrorInvalidTrack]: "歌曲資訊無效",
 
-	[Key.themeColor]: "Theme Color",
+	[Key.themeColor]: "主題色",
 	[Key.colorStyle]: "配色風格",
 	[Key.colorSpec]: "配色規範",
 
@@ -271,6 +272,7 @@ export const zh_TW: Translation = {
 	[Key.lastUpdatedNotice]: "最後更新於 {date}，距今已過 {days} 天",
 	[Key.lastUpdatedWarning]: "部分內容可能已過時",
 	[Key.license]: "許可協議",
+	[Key.reprintSource]: "轉載自",
 	[Key.continueReading]: "繼續閱讀",
 	[Key.relatedReading]: "沿著主題讀",
 	[Key.relatedReadingSubtitle]: "基於共同的標籤與分類",

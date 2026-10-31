@@ -169,6 +169,7 @@ export const zh_CN: Translation = {
 	[Key.announcementClose]: "关闭公告",
 
 	[Key.comments]: "评论",
+	[Key.commentsEditor]: "评论内容",
 	[Key.commentsLoading]: "正在加载评论...",
 	[Key.commentsLoadFailed]: "评论加载失败",
 	[Key.commentsRequiresJavaScript]: "评论区需要启用 JavaScript 才能显示",
@@ -237,7 +238,7 @@ export const zh_CN: Translation = {
 	[Key.musicErrorAutoplayBlocked]: "自动播放受限，请点击播放按钮开始",
 	[Key.musicErrorInvalidTrack]: "歌曲信息无效",
 
-	[Key.themeColor]: "Theme Color",
+	[Key.themeColor]: "主题色",
 	[Key.colorStyle]: "配色风格",
 	[Key.colorSpec]: "配色规范",
 
@@ -271,6 +272,7 @@ export const zh_CN: Translation = {
 	[Key.lastUpdatedNotice]: "最后更新于 {date}，距今已过 {days} 天",
 	[Key.lastUpdatedWarning]: "部分内容可能已过时",
 	[Key.license]: "许可协议",
+	[Key.reprintSource]: "转载自",
 	[Key.continueReading]: "继续阅读",
 	[Key.relatedReading]: "沿着主题读",
 	[Key.relatedReadingSubtitle]: "基于共同的标签与分类",

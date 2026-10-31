@@ -82,8 +82,8 @@ const search = async (keyword: string, isDesktop: boolean): Promise<void> => {
 				await (
 					window as unknown as { __loadPagefind: () => Promise<unknown> }
 				).__loadPagefind();
-				pagefindLoaded = typeof window.pagefind?.search === "function";
 			}
+			pagefindLoaded = typeof window.pagefind?.search === "function";
 			if (pagefindLoaded && window.pagefind) {
 				const response = await window.pagefind.search(keyword);
 				searchResults = await Promise.all(
@@ -140,13 +140,13 @@ onMount(() => {
 	}
 });
 
-$: if (initialized && keywordDesktop) {
+$: if (initialized) {
 	(async () => {
 		await search(keywordDesktop, true);
 	})();
 }
 
-$: if (initialized && keywordMobile) {
+$: if (initialized) {
 	(async () => {
 		await search(keywordMobile, false);
 	})();

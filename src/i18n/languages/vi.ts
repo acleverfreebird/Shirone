@@ -179,6 +179,7 @@ export const vi: Translation = {
 	[Key.announcementClose]: "Đóng thông báo",
 
 	[Key.comments]: "Bình luận",
+	[Key.commentsEditor]: "Nội dung bình luận",
 	[Key.commentsLoading]: "Đang tải bình luận...",
 	[Key.commentsLoadFailed]: "Không thể tải bình luận",
 	[Key.commentsRequiresJavaScript]: "Bình luận yêu cầu JavaScript để hiển thị",
@@ -248,7 +249,7 @@ export const vi: Translation = {
 		"Tự động phát đã bị chặn. Nhấn nút phát để bắt đầu.",
 	[Key.musicErrorInvalidTrack]: "Bài hát này không hợp lệ.",
 
-	[Key.themeColor]: "Theme Color",
+	[Key.themeColor]: "Màu chủ đề",
 	[Key.colorStyle]: "Phong cách màu",
 	[Key.colorSpec]: "Đặc tả màu",
 
@@ -282,6 +283,7 @@ export const vi: Translation = {
 	[Key.lastUpdatedNotice]: "Cập nhật lần cuối vào {date}, cách đây {days} ngày",
 	[Key.lastUpdatedWarning]: "Một số nội dung có thể đã lỗi thời",
 	[Key.license]: "Giấy phép bản quyền",
+	[Key.reprintSource]: "Nguồn",
 	[Key.continueReading]: "Đọc tiếp",
 	[Key.relatedReading]: "Bài viết liên quan",
 	[Key.relatedReadingSubtitle]: "Dựa trên thẻ và danh mục chung",

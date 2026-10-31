@@ -6,9 +6,8 @@
 
 import type mdx from "@astrojs/mdx";
 import type swup from "@swup/astro";
-import type expressiveCode from "astro-expressive-code";
-import type icon from "astro-icon";
 import type { AstroUserConfig } from "astro";
+import type expressiveCode from "astro-expressive-code";
 
 /**
  * 所有模式共享的集成选项。
@@ -17,7 +16,7 @@ import type { AstroUserConfig } from "astro";
  * `astro:config:setup` 阶段的 `updateConfig()`。源码模式（本仓 checkout）与
  * 包模式（npm 安装）都通过 `integrations: [shirones()]` 跑它——本仓的
  * `astro.config.mjs` 只剩这一行接线。源码模式由 in-repo 检测
- * （`paths.isInRepo`）把 config/data/content 指回 `src/` 自身，`src/` 下
+ * （`paths.isThemeRepo`）把 config/data/content 指回 `src/` 自身，`src/` 下
  * 原生的 pages/组件照常被 Astro 拾取。
  *
  * **只放「选项值」和纯函数，不放接线（wiring）。** 接线集中在
@@ -115,26 +114,8 @@ export const swupOptions: NonNullable<Parameters<typeof swup>[0]> = {
  */
 export const swupForwardOptions = {
 	animateHistoryBrowsing: false,
-	skipPopStateHandling: (event: { state?: { url?: string } }) =>
+	skipPopStateHandling: (event: { state?: { url?: string } }): boolean =>
 		Boolean(event.state?.url?.includes("#")),
-};
-
-/**
- * `astro-icon` 要打包的图标集。
- *
- * 五个集合一个都不能少：`src/` 里共 340 处图标引用，其中 `material-symbols`
- * 占 308 处、`simple-icons` 占 21 处。源码模式此前漏了这两个，只靠 astro-icon
- * 在扁平 `node_modules` 下的自动发现兜住；包模式在 pnpm 严格布局下没有这个
- * 退路，必须显式声明。
- */
-export const iconInclude: NonNullable<
-	NonNullable<Parameters<typeof icon>[0]>["include"]
-> = {
-	"material-symbols": ["*"],
-	"simple-icons": ["*"],
-	"fa6-brands": ["*"],
-	"fa6-regular": ["*"],
-	"fa6-solid": ["*"],
 };
 
 /**
@@ -201,7 +182,7 @@ export function svelteCompilerOptions(isDev: boolean) {
 			`svelte-${hash(css)}`,
 		// Keep repeated Svelte compiler diagnostics out of the dev terminal;
 		// check/build still surface the full warning set in CI.
-		warningFilter: () => !isDev,
+		warningFilter: (): boolean => !isDev,
 	};
 }
 
@@ -238,6 +219,16 @@ export const viteBuildShared: NonNullable<
 			) {
 				return;
 			}
+			// Astro's MDX bridge injects this directive before Rolldown sees the
+			// module; the directive is consumed by Astro and is not meaningful in
+			// the final browser bundle. Remove this filter once the bridge stops
+			// forwarding `astro:head-inject` to the bundler.
+			if (
+				warning.code === "MODULE_LEVEL_DIRECTIVE" &&
+				warning.message.includes('"use astro:head-inject"')
+			) {
+				return;
+			}
 			defaultHandler(warning);
 		},
 	},
@@ -250,11 +241,16 @@ export const viteBuildShared: NonNullable<
  * 根解析这些 id，看不见主题自己的嵌套依赖，列一个解析不了的 id 会让每次冷启动
  * 都刷一条警告。
  */
-export const prebundleSpecifiers = [
+export const prebundleSpecifiers: string[] = [
 	"mermaid",
 	"@panzoom/panzoom",
 	"overlayscrollbars",
 	"@fancyapps/ui",
+	// share-poster.ts reaches for this one at runtime, on the first share
+	// dialog rather than during SSR. Without it here the dev server serves a
+	// stale pre-bundle id and the dynamic import rejects, so poster
+	// generation fails only in dev.
+	"qrcode",
 ];
 
 /**

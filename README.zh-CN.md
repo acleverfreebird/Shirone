@@ -24,7 +24,7 @@
 
 ## 从这里开始
 
-[在线文档](https://docs.shirone.mysqil.com/)是配置主题、管理内容和部署站点的主要入口。本仓库包含主题源码；如果希望将个人内容独立管理，请使用 [Shirone-Content](https://github.com/LyraVoid/Shirone-Content)。
+[在线文档](https://docs.shirone.mysqil.com/)是配置主题、管理内容和部署站点的主要入口。本仓库包含主题源码。如果不想跟着主题源码一起更新，可以直接安装 [`shirones` npm 包](#使用-npm-包)：博客只占一个小仓库，主题更新用 `pnpm add shirones@latest` 就能拿到。如果希望将个人内容独立管理，请使用 [Shirone-Content](https://github.com/LyraVoid/Shirone-Content)。
 
 ## 实测表现
 
@@ -69,10 +69,12 @@ Shirone 是一个使用 Astro 7、Svelte 5、Tailwind CSS 4 和 Stylus 构建的
 
 ## 快速开始
 
+如果觉得跟着主题更新太麻烦，或者不想单独维护一个主题仓库，直接用 npm 包更省事——见[使用 npm 包](#使用-npm-包)。
+
 ### 环境要求
 
 - [Node.js](https://nodejs.org/) 22.12 或更高版本
-- [pnpm](https://pnpm.io/) 9.x（仓库锁定为 `pnpm@9.14.4`）
+- [pnpm](https://pnpm.io/) 11.x（仓库锁定为 `pnpm@11.28.2`）
 
 ### 本地运行
 
@@ -99,7 +101,7 @@ npx shirones init   # 写入 package.json，安装 astro、主题及其 peer 依
 pnpm dev
 ```
 
-`init` 会生成 `astro.config.mjs`、`shirones/` 下的类型化配置、示例内容与静态资源；你依然可以通过 `src/components/` 和 `src/layouts/` 覆盖主题组件。随时重新运行 `npx shirones init` 检查漂移（只报告、不修改）；运行 `npx shirones init --update` 恢复缺失文件，或 `--force` 从模板重新初始化。详见 [npm 包模式](./docs/npm-package-mode.md) 与 [shirones 仓库](https://github.com/yCENzh/shirones)。
+`init` 会生成 `astro.config.mjs`、`shirones/` 下的类型化配置、示例内容与静态资源；你依然可以通过 `src/components/` 和 `src/layouts/` 覆盖主题组件。随时重新运行 `npx shirones init` 检查漂移（只报告、不修改）；运行 `npx shirones init --update` 恢复缺失文件，或 `--force` 从模板重新初始化。详见 [shirones wiki](https://github.com/yCENzh/shirones/wiki)、[npm 包模式](./docs/npm-package-mode.md) 与 [shirones 仓库](https://github.com/yCENzh/shirones)。
 
 ### 定制站点
 
@@ -189,6 +191,7 @@ pnpm build
 
 ## 项目文档
 
+- [shirones wiki](https://github.com/yCENzh/shirones/wiki) - 面向使用者的指南：安装、配置、内容、组件覆盖、CLI 与故障排查
 - [`src/config/README.md`](./src/config/README.md) - 配置参考
 - [`docs/m3e-standard.md`](./docs/m3e-standard.md) - 设计令牌与组件标准
 - [`docs/atomic-structure.md`](./docs/atomic-structure.md) - 组件分层与依赖规则

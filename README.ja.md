@@ -24,7 +24,7 @@
 
 ## ここから始める
 
-[オンラインドキュメント](https://docs.shirone.mysqil.com/)が、テーマ設定、コンテンツ管理、デプロイの入口です。このリポジトリにはテーマ本体が含まれています。個人コンテンツを分離して管理する場合は [Shirone-Content](https://github.com/LyraVoid/Shirone-Content) を利用してください。
+[オンラインドキュメント](https://docs.shirone.mysqil.com/)が、テーマ設定、コンテンツ管理、デプロイの入口です。このリポジトリにはテーマ本体が含まれています。テーマ本体を追いかける運用が負担になる場合は、[`shirones` npm パッケージ](#npm-パッケージを使う)を使う方法もあります。ブログは小さなリポジトリひとつで済み、テーマの更新は `pnpm add shirones@latest` で取り込めます。個人コンテンツを分離して管理する場合は [Shirone-Content](https://github.com/LyraVoid/Shirone-Content) を利用してください。
 
 ## 実測パフォーマンス
 
@@ -69,10 +69,12 @@ Shirone は Astro 7、Svelte 5、Tailwind CSS 4、Stylus で構築された静�
 
 ## クイックスタート
 
+テーマの更新に追われたくない場合や、テーマ用のリポジトリを別途持ちたくない場合は、npm パッケージのほうが手軽です。[npm パッケージを使う](#npm-パッケージを使う)を参照してください。
+
 ### 必要な環境
 
 - [Node.js](https://nodejs.org/) 22.12 以上
-- [pnpm](https://pnpm.io/) 9.x（リポジトリでは `pnpm@9.14.4` を固定）
+- [pnpm](https://pnpm.io/) 11.x（リポジトリでは `pnpm@11.28.2` を固定）
 
 ### ローカルで起動する
 
@@ -99,7 +101,7 @@ npx shirones init   # package.json を書き、astro・テーマ・peer 依存�
 pnpm dev
 ```
 
-`init` は `astro.config.mjs`、`shirones/` 配下の型付き設定、サンプルコンテンツと静的アセットを生成します。`src/components/` と `src/layouts/` でテーマのコンポーネントを上書きすることもできます。いつでも `npx shirones init` を再実行して差分を確認できます（報告のみで何も変更しません）。`npx shirones init --update` で不足ファイルを復元し、`--force` でテンプレートから再初期化します。詳しくは [npm パッケージモード](./docs/npm-package-mode.md) と [shirones リポジトリ](https://github.com/yCENzh/shirones) を参照してください。
+`init` は `astro.config.mjs`、`shirones/` 配下の型付き設定、サンプルコンテンツと静的アセットを生成します。`src/components/` と `src/layouts/` でテーマのコンポーネントを上書きすることもできます。いつでも `npx shirones init` を再実行して差分を確認できます（報告のみで何も変更しません）。`npx shirones init --update` で不足ファイルを復元し、`--force` でテンプレートから再初期化します。詳しくは [shirones wiki](https://github.com/yCENzh/shirones/wiki)、[npm パッケージモード](./docs/npm-package-mode.md) と [shirones リポジトリ](https://github.com/yCENzh/shirones) を参照してください。
 
 ### サイトをカスタマイズする
 
@@ -185,6 +187,7 @@ pnpm build
 
 ## ドキュメント
 
+- [shirones wiki](https://github.com/yCENzh/shirones/wiki) - ユーザー向けガイド：インストール、設定、コンテンツ、コンポーネントの上書き、CLI、トラブルシューティング
 - [`src/config/README.md`](./src/config/README.md) - 設定リファレンス
 - [`docs/m3e-standard.md`](./docs/m3e-standard.md) - デザイントークンとコンポーネント標準
 - [`docs/atomic-structure.md`](./docs/atomic-structure.md) - コンポーネント階層と依存ルール

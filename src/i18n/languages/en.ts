@@ -177,6 +177,7 @@ export const en: Translation = {
 	[Key.announcementClose]: "Close Announcement",
 
 	[Key.comments]: "Comments",
+	[Key.commentsEditor]: "Comment content",
 	[Key.commentsLoading]: "Loading comments...",
 	[Key.commentsLoadFailed]: "Failed to load comments.",
 	[Key.commentsRequiresJavaScript]:
@@ -280,6 +281,7 @@ export const en: Translation = {
 	[Key.lastUpdatedNotice]: "Last updated on {date}, {days} days ago",
 	[Key.lastUpdatedWarning]: "Some content may be outdated",
 	[Key.license]: "License",
+	[Key.reprintSource]: "Reprinted from",
 	[Key.continueReading]: "Continue reading",
 	[Key.relatedReading]: "Related reading",
 	[Key.relatedReadingSubtitle]: "Based on shared tags and categories",

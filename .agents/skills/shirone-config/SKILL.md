@@ -23,7 +23,7 @@ description: Configuring a Shirone blog site - site identity, theme colors, navi
 | `sidebarConfig.ts` | 侧栏编排:`arrangement` 单/双栏、`side`、widget 清单与页面过滤 |
 | `postListConfig.ts` | 分页大小、list/grid 布局 |
 | `articleConfig.ts` | 相关文章、分享与海报 |
-| `commentConfig.ts` | 评论系统(默认关闭,Twikoo / Giscus 双 Provider) |
+| `commentConfig.ts` | 评论系统（默认关闭，可选 Twikoo / Giscus / Waline） |
 | `umamiConfig.ts` | Umami 数据统计：公开分享统计读取，以及可选的官方访问采集脚本 |
 | `musicConfig.ts` | 侧栏音乐(当前默认启用，可手动关闭；local/custom/meting/mixed 四种模式) |
 | `animeConfig.ts` | 追番页数据源:本地 / Bangumi 快照 / Bilibili 快照 |
@@ -33,7 +33,7 @@ description: Configuring a Shirone blog site - site identity, theme colors, navi
 | `seriesConfig.ts` | 系列连载（`/series/` 索引与详情页、文章内系列卡位置 `cardPosition`、默认开启，关闭时入口与页面同步隐藏） |
 | `fabConfig.ts` | 右下角悬浮控制流 |
 | `footerConfig.ts` / `FooterConfig.html` | 可选页脚 HTML 注入(默认关闭) |
-| `licenseConfig.ts` / `expressiveCodeConfig.ts` | 文章版权声明与代码块主题 |
+| `licenseConfig.ts` / `expressiveCodeConfig.ts` | 文章版权声明（全站默认；单篇可用 frontmatter `license` 覆写）与代码块主题 |
 | `announcementConfig.ts` / `imageBloomConfig.ts` / `textureConfig.ts` | 公告、图片辉光与背景纹理的站点级行为 |
 
 ## 内容时间
@@ -46,7 +46,7 @@ description: Configuring a Shirone blog site - site identity, theme colors, navi
 
 可选功能在关闭或未配置时必须**零开销**(零请求/零 DOM/零 bundle)；是否默认启用由现有产品配置决定，不得在修改 skill 时擅自改变。启用时:
 
-1. 在对应 `*Config.ts` 置 `enable: true` 并填写凭据(如 Twikoo `envId`,或 Giscus 的 `giscus.repo` / `repoId` / `categoryId` 三必填——从 giscus.app 获取,缺任一则评论区静默关闭);
+1. 在对应 `*Config.ts` 置 `enable: true` 并填写凭据（如 Twikoo 的 `envId`、Giscus 的 `repo` / `repoId` / `categoryId` 三必填，或 Waline 的 `serverURL`）;
 2. 部分功能需同时满足多条件,如侧栏音乐要求:`musicConfig.enable` + 数据源有有效曲目 + `sidebarConfig.components` 中 music 条目 `enable: true`;
 3. 侧栏 widget 的显隐/分栏/页面范围在 `sidebarConfig.ts` 编排;
 4. 页面级开关(如 skills/projects)关闭时导航入口同步隐藏;系列功能还提供 `LinkPresets.Series`(`/series/`)预设但不在默认导航列表中,需用户自行加入 `src/config/navBarConfig.ts`,其内容仓覆盖文件为 `config/series.yaml`(领域键 `series`)。

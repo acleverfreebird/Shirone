@@ -24,7 +24,7 @@ A calm reading space for long-form writing, personal collections, and the small 
 
 ## Start Here
 
-The [online documentation](https://docs.shirone.mysqil.com/) is the main entry point for setup, configuration, content workflows, and deployment. This repository contains the theme source; use [Shirone-Content](https://github.com/LyraVoid/Shirone-Content) when you want to keep personal content in a separate repository.
+The [online documentation](https://docs.shirone.mysqil.com/) is the main entry point for setup, configuration, content workflows, and deployment. This repository contains the theme source. If tracking it is more maintenance than you want, install the [`shirones` npm package](#use-the-npm-package) instead: your blog stays one small repository and theme updates arrive with `pnpm add shirones@latest`. Use [Shirone-Content](https://github.com/LyraVoid/Shirone-Content) when you would rather keep personal content in a separate repository.
 
 ## Verified In Practice
 
@@ -73,10 +73,15 @@ Shirone ships with [agent skills](./.agents/skills/README.md) in `.agents/skills
 
 ## Quick Start
 
+If keeping up with theme updates is a chore, or you would rather not maintain a
+separate theme repository at all, use the npm package instead — see
+[Use the npm package](#use-the-npm-package). It keeps your blog in one small
+repository and updates the theme with `pnpm add shirones@latest`.
+
 ### Requirements
 
 - [Node.js](https://nodejs.org/) 22.12 or newer
-- [pnpm](https://pnpm.io/) 9.x (the repository pins `pnpm@9.14.4`)
+- [pnpm](https://pnpm.io/) 11.x (the repository pins `pnpm@11.28.2`)
 
 ### Run locally
 
@@ -109,7 +114,8 @@ example content and static assets; `src/components/` and `src/layouts/` still
 work for overriding theme components. Re-run `npx shirones init` anytime to
 check for drift — it reports without changing anything. Run `npx shirones
 init --update` to restore missing files, or `--force` to re-scaffold from the
-template. See [npm package mode](./docs/npm-package-mode.md) and the
+template. See the [shirones wiki](https://github.com/yCENzh/shirones/wiki),
+[npm package mode](./docs/npm-package-mode.md) and the
 [shirones repository](https://github.com/yCENzh/shirones) for details.
 
 ### Customize your site
@@ -141,7 +147,7 @@ Shirone keeps theme source, personal site content, and npm publishing responsibi
 | `src/config/sidebarConfig.ts` | Sidebar layout, widgets, and page filters |
 | `src/config/postListConfig.ts` | Pagination and list/grid presentation |
 | `src/config/articleConfig.ts` | Update notice, related posts, and article sharing |
-| `src/config/commentConfig.ts` | Optional comments via Twikoo or Giscus |
+| `src/config/commentConfig.ts` | Optional comments via Twikoo/Giscus/Waline |
 | `src/config/musicConfig.ts` | Optional local, custom, Meting, or mixed music source |
 | `src/config/animeConfig.ts` | Anime page and local/Bangumi/Bilibili snapshot source |
 
@@ -183,6 +189,7 @@ Frequently used optional fields include `updated`, `pinned`, `comment`, `lang`, 
 Shirone produces a static `dist/` directory and can be deployed to Vercel, Netlify, GitHub Pages, or any static hosting service.
 
 Before deploying, update `site` and `base` in `src/config/siteConfig.ts` (or in your content repository's `config/site.yaml`):
+
 - If deployed to a domain root (e.g., `https://example.com/` or a custom domain), keep `base` as `"/"`.
 - If deployed to a subpath directory (such as GitHub Pages repository URL `https://username.github.io/Shirone/`), set `base` to the subpath (e.g. `"/Shirone"` or `"/Shirone/"`), and set `site` to `https://username.github.io`. The build pipeline and internal assets will adapt automatically.
 
@@ -200,6 +207,7 @@ Use `pnpm build` as the build command and `dist` as the output directory. More d
 
 ## Documentation
 
+- [shirones wiki](https://github.com/yCENzh/shirones/wiki) - the user-facing guide: installation, configuration, content, component overrides, the CLI and troubleshooting
 - [`src/config/README.md`](./src/config/README.md) - configuration reference
 - [`docs/m3e-standard.md`](./docs/m3e-standard.md) - design tokens and component standard
 - [`docs/atomic-structure.md`](./docs/atomic-structure.md) - component layers and dependency rules
