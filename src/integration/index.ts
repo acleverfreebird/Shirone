@@ -17,6 +17,7 @@ import {
 	viteBuildShared,
 } from "../config/integrationsConfig.ts";
 import { buildFontDeclarations } from "./fonts.ts";
+import { indexPagefindDirectory } from "./pagefind.ts";
 import {
 	invalidateConfigCache,
 	loadConfigModule,
@@ -377,6 +378,9 @@ export function shirones(options: ShironesOptions = {}): AstroIntegration {
 							// Node cannot load when externalized, so Vite bundles it.
 							noExternal: ["@material/material-color-utilities"],
 						},
+						// `as never`: DeepPartial<AstroConfig> maps arrays into a
+						// partial element type, which no precisely typed PluginOption[]
+						// can satisfy; the array's own elements stay checked above.
 						plugins: [
 							// The overlay rewriter redirects user files onto package
 							// files; inside the theme's own repository every import already
@@ -396,7 +400,7 @@ export function shirones(options: ShironesOptions = {}): AstroIntegration {
 							shironesSsrNodeShims(),
 							createMusicSidebarPlugin(paths, musicEnabled),
 							(await import("@tailwindcss/vite")).default(),
-						],
+						] as never,
 						optimizeDeps: {
 							// Only pre-bundle what the *user's* project can actually
 							// resolve. Under pnpm's strict layout these are nested
@@ -480,13 +484,11 @@ export function shirones(options: ShironesOptions = {}): AstroIntegration {
 				// (workers, exclusions, ...). Indexing here as well would build
 				// the index twice.
 				if (options.pagefind === false || paths.isThemeRepo) return;
-				const outDir = dir.pathname;
 				try {
 					const pagefind = await import("pagefind");
 					const { index } = await pagefind.createIndex({});
 					if (!index) throw new Error("Pagefind failed to create an index");
-					await index.addDirectory({ path: outDir });
-					await index.writeFiles({ outputPath: join(outDir, "pagefind") });
+					await indexPagefindDirectory(dir, index);
 					logger.info("pagefind index generated");
 				} catch (error) {
 					logger.warn(
