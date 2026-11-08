@@ -10,7 +10,7 @@ draft: false
 lang: 'zh-CN'
 ---
 
-Visual Studio Code 是由微软开发的跨平台文本编辑器，基于 Electron 框架构建，具有强大的扩展性。在 Arch Linux 系统上，我们有多个版本可供选择，每个版本都有其特定的用途和许可证。
+在 Arch Linux 上装 VS Code，很多新手第一次搜包时会困惑：官方仓库里的 `code`、AUR 里的 `visual-studio-code-bin` 和 `vscodium` 到底装哪个？这篇笔记把三个版本的区别、插件市场限制以及 Wayland / 密钥环等常见坑整理在了一起。
 
 ## VSCode 版本介绍
 
@@ -195,18 +195,6 @@ code --force-device-scale-factor=2
 }
 ```
 
-## 总结
+## 小结
 
-在 Arch Linux 上安装 VSCode 有多种选择：
-
-1. **新手推荐**：直接安装 `code` 包，简单快捷
-2. **专业开发**：安装 `visual-studio-code-bin`，获得完整功能
-3. **隐私优先**：选择 `vscodium`，无微软遥测
-
-记住，无论选择哪个版本，当安装主题相关插件时，都要执行权限修复命令：
-
-```bash
-sudo chown -R $(whoami) /usr/lib/code
-```
-
-这将确保你的 VSCode 能够正常工作并充分利用其强大的扩展生态系统。
+省流选择：如果你依赖 Remote-SSH、Pylance 等微软闭源插件或 GitHub 账号同步，直接用 AUR 装 `visual-studio-code-bin` 最省心；如果想直接走官方仓库 `pacman -S code`，记得补装 `code-marketplace` 来解锁完整扩展市场。

@@ -15,9 +15,9 @@ series: 'Web开发入门'
 seriesOrder: 1
 ---
 
-## 1. Flask简介
+## 1. Flask 简介
 
-Flask是一个轻量级的Python Web框架，它不包含ORM、表单验证等工具，而是让开发者自行选择。这使得Flask非常灵活，适合快速开发小型应用和API。
+Flask 是一个很轻量的 Python Web 框架，默认只保留了核心的路由和模板渲染，数据库 ORM 或表单验证都可以按需自己搭，非常适合用来快速写小型服务或接口原型。
 
 ## 2. 安装Flask
 
@@ -40,7 +40,7 @@ app = Flask(__name__)
 def hello_world():
     return 'Hello, World!'
 
-if __name__ == '__main_':
+if __name__ == '__main__':
     app.run(debug=True)
 ```
 

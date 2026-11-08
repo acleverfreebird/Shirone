@@ -7,14 +7,14 @@ tags: ['MCP', 'Python', 'FastMCP', 'AI', '实战']
 category: 'AI'
 draft: false
 lang: 'zh-CN'
-excerpt: '听说MCP是2026年最火的AI协议？今天带你用Python写一个真正的MCP天气服务器，顺便把和风天气API揉进去——代码不超过100行，两种传输协议随便切。看完你也能跟别人吹牛说自己搞过MCP了。'
+excerpt: '用 Python 和 FastMCP 搭建一个接入和风天气 API 的 MCP 服务器，支持 stdio、SSE 与 Streamable HTTP 三种传输协议切换。'
 keywords: ['MCP', 'Model Context Protocol', 'FastMCP', 'Python', '天气API', 'SSE', 'Streamable HTTP', 'AI协议']
 readingTime: 8
 series: 'MCP开发实战'
 seriesOrder: 1
 ---
 
-> 听说MCP是2026年最火的AI协议？别慌，今天带你用Python写一个真正的MCP服务器，顺便把和风天气API揉进去——代码不超过100行，两种传输协议随便切。看完你也能跟别人吹牛说自己搞过MCP了。
+> 这篇笔记记录怎么用 Python 的 `FastMCP` 写一个查天气的 MCP 服务器，把和风天气 API 接进去，并支持在 `stdio`、`SSE` 和 `Streamable HTTP` 三种传输协议之间按需切换。
 
 ---
 
@@ -96,7 +96,7 @@ weather-mcp-server/
 └── README.md       # 项目说明
 ```
 
-顺便提一句，`uv`自动创建的`pyproject.toml`文件会帮你管理所有依赖，比手动维护`requirements.txt`不知道高到哪里去了。
+顺便提一句，`uv` 自动生成的 `pyproject.toml` 和 `uv.lock` 会直接管好依赖版本，比手动维护 `requirements.txt` 省心不少。
 
 ### 获取和风天气API Key
 
@@ -198,9 +198,9 @@ def fetch_weather(location_id: str) -> dict:
 
 ---
 
-## Step 3：给MCP加点料——完整代码
+## Step 3：注册 MCP 工具函数——完整代码
 
-现在是见证奇迹的时刻。用`@mcp.tool()`装饰器把天气查询函数暴露成AI可以调用的Tool：
+接下来用 `@mcp.tool()` 装饰器把天气查询函数暴露成客户端可以直接调用的 Tool：
 
 ```python
 # server.py 完整代码
@@ -492,14 +492,7 @@ curl -X POST http://localhost:8000/mcp \
 
 ## 写在最后
 
-100多行代码，我们从零搭建了一个功能完整的MCP天气服务器。回顾一下我们都做了什么：
-
-1. **了解了MCP是什么**：AI世界的“USB-C接口”，统一模型与外部工具的通信标准
-2. **搭建了开发环境**：Python 3.10+、uv包管理工具、和风天气API Key
-3. **编写了MCP服务器**：用`FastMCP`框架，不到120行代码实现了两个天气查询工具
-4. **掌握了传输协议切换**：stdio → SSE → Streamable HTTP，三种模式任你切换
-
-这个天气服务器可以直接被任何支持MCP协议的AI客户端使用，比如Cursor、Claude Desktop、Cherry Studio等。当你在这些工具里输入“北京今天天气怎么样”，AI模型就会自动调用我们写的`get_current_weather`工具，返回真实的天气数据。
+写完这 100 来行代码，一个能查实时天气的 MCP 服务器就跑通了。直接把它配进 Cursor、Claude Desktop 或 Cherry Studio 里，问一句“北京今天天气怎么样”，客户端就会自动调 `get_current_weather` 拿回和风天气的实时数据。
 
 如果你想继续深入，还可以往这个服务器里添加更多功能：
 

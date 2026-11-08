@@ -14,7 +14,7 @@ series: 'ArchLinux安装系列'
 seriesOrder: 3
 ---
 
-> 在完成了 [ArchLinux 基础安装教程](/posts/archinstaller/) 和 [ArchLinux 桌面环境安装配置教程](/posts/archmore/) 之后，你的 Arch Linux 已经具备了完整的日常可用性。但滚动更新发行版的特性决定了：**系统的长期稳定，三分靠安装，七分靠维护**。本指南将带你掌握 Arch 的日常维护基本功与高频故障恢复技巧。
+> 跑完 [ArchLinux 基础安装教程](/posts/archinstaller/) 和 [ArchLinux 桌面环境安装配置教程](/posts/archmore/) 之后，系统已经能应付日常使用了。不过 Arch 是滚动发行版，平时怎么更包、出问题去哪看日志，直接决定了它能安稳用多久。这篇把日常维护和几种常见报错的救砖命令整理在一起，留作备查。
 
 ![安装完成只是起点，建立维护习惯才是关键](./01-installation-start.jpg)
 
@@ -328,7 +328,7 @@ yay -Sc
 
 ## 结语
 
-使用 Arch Linux 的核心在于建立良好的维护习惯。只要坚持**完整更新**、**不乱用覆盖安装**，并在关键更新前做好快照（推荐参考 [Btrfs 快照 + 备份方案实战：打造永不丢数据的 Linux 系统](/posts/btrfs-snapshot-backup-guide/)），你的 Arch 系统就能长期平稳运行，远离「滚挂」的烦恼。
+Arch 其实没有传言中那么脆弱。平时养成习惯：用 `pacman -Syu` 完整更新、不单独 `-Sy` 装包、大更新前顺手打个快照（可以参考 [Btrfs 快照 + 备份方案实战](/posts/btrfs-snapshot-backup-guide/)），基本很少会遇到真正滚挂的场面。
 
 ![Timeshift 一键回滚：升级前的快照是最大的后悔药](./23-timeshift-one-click-rollback.png)
 

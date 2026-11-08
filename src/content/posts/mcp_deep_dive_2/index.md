@@ -756,33 +756,15 @@ GET https://example.com/.well-known/mcp.json
 
 ## 写在最后
 
-回顾这篇续作，我们从上一篇的"怎么写一个 MCP Server"出发，爬到了更高的视角：
+如果说上一篇解决的是怎么把一个本地 MCP Server 跑起来，这一篇聊的就是当工具变多、团队要上生产时绕不开的几个现实问题：怎么控制上下文体积、怎么用 Gateway 收拢权限，以及怎么用 Orchestrator 把多个 Server 串起来。
 
-1. **MCP 生态大爆发** — 从个人玩具走向企业标配，只用了不到两个月
-2. **三大核心能力** — Tools + Resources + Prompts 构成完整 Agent 能力三角
-3. **上下文膨胀的解法** — 渐进式发现、程序化调用、面向 Agent 设计
-4. **Gateway 架构** — 没有网关，别谈生产环境
-5. **安全不可忽视** — 即使官方说"这是预期设计"  
-6. **多 Server 协同** — 用 Orchestrator 模式让多个 MCP Server 联合工作
-7. **未来在路上** — 无状态传输、Server Discovery、MCP Apps
-
-### 三篇预告
-
-第三篇已经在路上了，预告一下选题方向：
-
-- **MCP 服务器的云端部署实战**（Docker + K8s + 反向代理）
-- **结合 LangChain / AutoGen 3.0 的完整 Agent 应用**
-- **MCP 与 OAuth 2.1 的企业级认证集成**
+下一篇打算接着聊聊 MCP 服务器的容器化部署，以及怎么跟 OAuth 2.1 做认证集成。
 
 ### 资源链接
 
 - [MCP 官方文档](https://modelcontextprotocol.io/) — 协议规范和最佳实践
 - [MCP Python SDK](https://github.com/modelcontextprotocol/python-sdk) — 官方 Python 实现
-- [MCP 社区 Server 列表](https://github.com/modelcontextprotocol/servers) — 1000+ 社区实现
+- [MCP 社区 Server 列表](https://github.com/modelcontextprotocol/servers) — 社区开源实现汇总
 - [Agentic AI Foundation](https://agentic.ai/) — MCP 标准组织
 - [OX Security MCP 安全报告](https://ox.security/) — 漏洞详情
 - [上一篇：手把手教你构建MCP天气服务器](/posts/how_to_create_mcp/) — 系列第一篇
-
----
-
-*MCP 正在定义 AI Agent 时代的互联标准。不管你是独立开发者还是企业团队，现在上车，不晚。*

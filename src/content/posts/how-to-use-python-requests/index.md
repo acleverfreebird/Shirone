@@ -15,16 +15,9 @@ series: 'Python实用库'
 seriesOrder: 1
 ---
 
-## 1. Requests库简介
+## 1. Requests 库简介
 
-[`requests`](https://requests.readthedocs.io/) 是Python中最流行的HTTP库，它让HTTP请求变得简单而优雅。相比于Python标准库中的 [`urllib`](urllib)，Requests提供了更加人性化的API，是进行Web开发、API调用和网络爬虫的首选工具。
-
-### 1.1. 为什么选择Requests？
-
-- **简洁优雅**：API设计直观，代码可读性强
-- **功能强大**：支持所有HTTP方法和高级特性
-- **自动处理**：自动处理编码、重定向、cookies等
-- **广泛使用**：社区活跃，文档完善
+在 Python 里发 HTTP 请求，标准库自带的 `urllib` 写起来比较繁琐，所以平时调接口、写爬虫最常用的还是 [`requests`](https://requests.readthedocs.io/)。它会自动帮我们处理编码、重定向和 Cookie，大多数接口请求几行代码就能搞定。
 
 ## 2. 安装Requests
 
@@ -615,16 +608,9 @@ headers = {
 response = requests.get('https://example.com', headers=headers)
 ```
 
-## 15. 总结
+## 15. 小结
 
-Requests库是Python中进行HTTP请求的最佳选择，它提供了：
-
-- **简洁的API**：易于学习和使用
-- **强大的功能**：支持所有HTTP特性
-- **良好的文档**：官方文档详细完善
-- **活跃的社区**：问题能快速得到解答
-
-通过本教程，你应该已经掌握了Requests库的核心功能和最佳实践。无论是进行API调用、网页爬虫还是Web开发，Requests都能帮助你高效地完成HTTP请求任务。
+实际项目里用 `requests`，最关键的就是记住三件事：用 `Session` 复用连接、每个请求都加上 `timeout`、配合 `raise_for_status()` 做好异常捕获。把这三点养成习惯，绝大多数网络请求场景就都很稳了。
 
 ## 参考资源
 

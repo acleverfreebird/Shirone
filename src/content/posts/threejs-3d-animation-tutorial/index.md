@@ -14,9 +14,9 @@ series: '前端图形学'
 seriesOrder: 1
 ---
 
-在现代 Web 开发中，3D 视觉体验已经成为提升网站吸引力的重要手段。**Three.js** 作为 Web 端最流行的 3D 渲染库，封装了底层的 WebGL API，让开发者可以用少量代码就能创建出惊艳的 3D 场景和动画。
+直接在浏览器里手写原生 WebGL 代码非常繁琐，画一个旋转的立方体往往就要上百行着色器和缓冲区样板代码。**Three.js** 把底层的 WebGL 接口封装成了场景（Scene）、相机（Camera）、网格（Mesh）等直观对象，几十行代码就能搭起一个可交互的 3D 场景。
 
-本文将带你从零开始，一步步掌握 Three.js 的核心概念，并最终完成一个完整的 3D 交互动画。
+这篇笔记从最基础的几何体与光照讲起，最后用粒子系统和轨道控制器做出一个可交互的 3D 彩色星系动画。
 
 ## Three.js 是什么
 
@@ -508,22 +508,8 @@ const texture = loader.load(
 );
 ```
 
-## 总结
+## 小结
 
-通过本教程，你已经学会了：
+只要先把 `Scene`、`Camera`、`Renderer` 和 `requestAnimationFrame` 渲染循环这四块主干跑通，往场景里加几何体、灯光、粒子或者控制器其实就是不断往 `scene.add()` 里塞对象的过程。
 
-1. **场景搭建**：Scene、Camera、Renderer 三件套
-2. **几何体创建**：BoxGeometry、SphereGeometry、TorusGeometry 等
-3. **材质与光照**：StandardMaterial、PhysicalMaterial、环境光、方向光
-4. **动画循环**：requestAnimationFrame 实现连续动画
-5. **粒子系统**：BufferGeometry 配合 Points 创建绚丽粒子效果
-6. **交互控制**：OrbitControls 实现鼠标拖拽观察
-7. **优化技巧**：窗口自适应、性能优化、常见问题排查
-
-Three.js 的世界远不止于此，还有 **模型导入（GLTF/GLB）**、**骨骼动画**、**后期特效**、**VR/AR 支持** 等丰富功能等待探索。建议访问 [Three.js 官方示例](https://threejs.org/examples/) 获取更多灵感。
-
-现在，打开你的编辑器，创建属于你自己的 3D 世界吧！
-
----
-
-*The best way to learn Three.js is to build something. — Three.js 社区*
+如果接下来想往项目里塞外部 3D 资产，可以继续看 `GLTFLoader`（导入 Blender 导出的 `.glb/.gltf` 模型）以及 `EffectComposer`（后期辉光、景深等通道），或者直接翻阅 [Three.js 官方示例](https://threejs.org/examples/) 找现成的实现参考。

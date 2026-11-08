@@ -9,11 +9,11 @@ draft: false
 lang: 'zh-CN'
 ---
 
-## 一、什么是Python Notebook？
+## 一、什么是 Jupyter Notebook？
 
-你是否想象过一本可以直接"运行"的笔记本？Python Notebook（通常指Jupyter Notebook）就是这样一个神奇的工具！它就像你的数字实验室，既能写文字笔记，又能运行Python代码，还能即时看到结果。对于编程新手来说，这是一个**零门槛**的学习工具，让编程变得像搭积木一样简单有趣！
+平时刚学 Python 或者做数据分析时，每次改一行代码都要从头跑一遍 `.py` 脚本挺麻烦的。Jupyter Notebook 把代码、运行结果和 Markdown 笔记放在同一个页面里，写一段就能单独跑一段，即时看输出和图表，非常适合拿来写实验代码和记学习笔记。
 
-## 二、安装Python Notebook（超简单！）
+## 二、安装与启动
 
 ### 2.1 下载Anaconda（推荐新手）
 
@@ -207,19 +207,8 @@ pip install jupyter notebook
 2. 菜单选择：Kernel → Restart（重启内核）
 3. 关闭浏览器标签，从Anaconda Navigator重新启动Notebook
 
-## 八、总结与进阶学习
+## 八、进阶资料
 
-恭喜你完成了Python Notebook的入门之旅！现在你已经掌握了：
+用熟了基础的单元格操作和快捷键（比如 `Shift + Enter` 运行、`B` 在下方新建单元格）之后，日常写小脚本和画图就够用了。后面如果需要同时管理多个文件或终端，可以试试它的演进版本 **JupyterLab**，或者直接在 VS Code 里装 Jupyter 插件打开 `.ipynb` 文件。
 
-- ✅ 安装和启动Jupyter Notebook
-- ✅ 创建和编辑Notebook文档
-- ✅ 运行Python代码和编写文字笔记
-- ✅ 绘制简单的数据图表
-
-### 进阶学习资源：
-
-1. **官方文档**：https://jupyter-notebook.readthedocs.io
-2. **练习项目**：尝试用Notebook记录你的学习笔记
-3. **扩展功能**：了解Jupyter Lab（Notebook的升级版）
-
-记住，编程最好的学习方法是**多动手尝试**！打开你的Notebook，开始创造属于你的第一个项目吧！如有任何问题，欢迎在评论区留言哦~
+- **官方文档**：https://jupyter-notebook.readthedocs.io

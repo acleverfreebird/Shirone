@@ -11,7 +11,7 @@ lang: 'zh-CN'
 
 > ## 前言
 >
-> 开始正式安装 ArchLinux 了。本教程将详细介绍从进入安装环境到完成系统配置的全过程，适合新手参考。如果你对某些步骤不理解，可以参考原教程的"基础安装详解"部分。
+> 这篇记录从启动安装盘到跑通 ArchLinux 基础系统的完整步骤（UEFI + Btrfs 子卷 + GRUB），按实际敲命令的顺序整理，方便装机时对照。
 
 
 ## 1. 进入安装环境
@@ -348,6 +348,6 @@ ping www.bilibili.com  # 测试网络连接
 
 ## 结语
 
-恭喜！你已成功安装 ArchLinux 基础系统。接下来可以安装桌面环境和常用软件，打造个性化的 Linux 工作环境。
+到这里 ArchLinux 的基础系统已经能从硬盘正常引导并联网了。目前还只有纯命令行，下一步可以接着装 KDE 桌面、输入法和常用软件。
 
-> 📝 **注**：本教程图片和部分内容来源于 [arch.icekylin.online](https://arch.icekylin.online/guide/rookie/basic-install)，感谢原作者的详细指南。
+> 📝 **注**：本教程图片和部分内容参考自 [arch.icekylin.online](https://arch.icekylin.online/guide/rookie/basic-install)，感谢原作者的整理。
