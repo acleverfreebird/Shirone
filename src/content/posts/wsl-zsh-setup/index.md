@@ -3,7 +3,7 @@ title: '给 WSL 装上 Zsh：从默认的 Bash 换到顺手的终端'
 author: 'freebird2913'
 published: 2026-11-21
 description: 'WSL 装好之后，默认的 Bash 能用，但不好用。这篇从安装 Zsh、设为默认 shell 开始，一步步装上 Oh My Zsh、自动建议和语法高亮两个救命插件，再讲清 WSL 特有的几个坑：chsh 不生效、字体要装在 Windows 那边、配置文件千万别用 Windows 编辑器改。'
-image: ''
+image: './images/zsh-prompt.png'
 tags: ['WSL', 'Zsh', 'Linux', '终端']
 category: '技术教程'
 draft: false
@@ -49,7 +49,11 @@ Oh My Zsh 是 Zsh 的配置框架，主题和插件都靠它管理。官方装�
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
-装完终端会直接变成 Zsh 的样子，提示符前面多出一个箭头，这就是默认主题 `robbyrussell`。
+装完终端会直接变成 Zsh 的样子，提示符前面多出一个箭头，这就是默认主题 `robbyrussell`。在 Git 仓库里，提示符还会带上当前分支名，省得你老去敲 `git status` 确认自己在哪条分支上。
+
+![装好 Oh My Zsh 后的提示符，在 Git 仓库里会显示当前分支](./images/zsh-prompt.png)
+
+*装好之后的样子：青色是目录，括号里是 Git 分支。这张和下面两张都是我在一台测试机上按本文步骤实际安装后截的图。*
 
 **第二个坑是网络**：`raw.githubusercontent.com` 在国内经常连不上，命令卡在那里不动，或者报连接错误。两个办法：一是开代理之后再跑这条命令；二是走镜像，把安装脚本和仓库地址换成国内镜像站（比如 Gitee 上的 oh-my-zsh 镜像），装完再把 `~/.oh-my-zsh` 里远程仓库地址改回官方的，方便以后更新。网络的事没法一概而论，你那边能直连就当我没说。
 
@@ -77,6 +81,14 @@ plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 ```
 
 这里有个顺序讲究：**语法高亮必须放最后一个**，它要接管其他插件画完的命令行，放前面会失效或者警告。改完执行 `source ~/.zshrc`，或者干脆重开终端。随便敲一个以前用过的命令，灰色建议出现了，就说明装对了。
+
+![自动建议：输一半，灰色部分就是它根据历史补出的整条命令](./images/zsh-autosuggest.png)
+
+*自动建议的效果：白色是手敲的部分，灰色是它根据历史记录补出的后半条命令，按右方向键就整条接受。*
+
+![语法高亮：gti 打错了立刻变红，git 是绿的](./images/zsh-highlight.png)
+
+*语法高亮的效果：第一行把 `git` 打成了 `gti`，命令名立刻变红；第二行 `git` 是绿的，说明这个命令存在。后面灰色的 `-sb` 还是自动建议在工作。*
 
 ## 第四步（可选）：Powerlevel10k 主题和字体
 
