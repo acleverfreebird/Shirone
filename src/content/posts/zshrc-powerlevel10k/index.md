@@ -1,5 +1,5 @@
 ---
-title: '.zshrc 从能用到顺手：Powerlevel10k 和几个真正用得上的插件'
+title: 'Zsh 配置教程：Powerlevel10k 主题与实用插件，附 .zshrc 完整示例'
 author: 'freebird2913'
 published: 2026-11-22
 description: '上一篇把 Zsh 装上了，这一篇写配置文件本身：主题换成 Powerlevel10k（Lean 风格、即时提示、Git 状态一眼看清），插件分自带和外部两类，只留每天用得上的，最后给一份完整可抄的 .zshrc，并附实测截图。'
