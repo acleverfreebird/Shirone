@@ -3,7 +3,7 @@ title: '让 PowerPoint 自己写动画：一个 PPT 动画插件的做法'
 author: 'freebird2913'
 published: 2026-11-22
 description: '手写 PPT 动画的 timing XML，能凑出结构，但 PowerPoint 认不认是另一回事。这个 DeepSeek Harness 插件换了个思路：用 COM 驱动 PowerPoint，把 160 个效果、每个方向、150 个切换各生成一遍，抽出 XML 编译成模板库。插件运行时只重排 id、分配 grpId、写参数。'
-image: ''
+image: './images/ppt-anim-hero.png'
 tags: ['PPT', 'PowerPoint', '动画', '插件', 'DeepSeek']
 category: 'AI工具'
 draft: false
@@ -12,6 +12,10 @@ excerpt: '手写 PPT 动画 XML 能凑出结构，但 PowerPoint 认不认是另
 keywords: ['PPT 动画', 'PowerPoint', 'timing XML', 'DeepSeek Harness', '插件']
 readingTime: 7
 ---
+
+![一张活过来的幻灯片：元素沿着光轨运动，下方是动画时间轴](./images/ppt-anim-hero.png)
+
+*本文配图均为 AI 生成的示意图，非产品截图；文中另有两张仓库自带的演示稿截图，会单独注明。*
 
 ## 先说一个手写动画的教训
 
@@ -30,6 +34,10 @@ readingTime: 7
 第二步才是插件运行时做的事，而且少得惊人：把模板拿出来，重排时间节点 id、分配 `grpId`，再按请求写上时长、延迟、方向和修饰。效果体本身一个字不改——那是 PowerPoint 的原话。
 
 这个思路的好处是显而易见的：生成出来的动画，就是 PowerPoint 自己会写的那种动画，不存在「格式猜错了」的空间。
+
+![采样：让 PowerPoint 把每个效果写一遍，抽出来归档成模板库](./images/ppt-anim-sampling.png)
+
+*采样这一步的示意：左边是 PowerPoint 逐个生成效果，右边是归档好的模板库（AI 生成的示意图）。*
 
 ## 采样还挖出两条没写在文档里的规则
 
@@ -57,6 +65,10 @@ readingTime: 7
 ## 验证方式：不自证，让 PowerPoint 读回来
 
 生成工具最容易陷入的陷阱是「我觉得写对了」。这个项目的验证方式是让 PowerPoint 本人来判：用 COM 打开生成的文件，把主时间轴里每条动画的类型、触发方式、时长、段落、方向参数逐条读回来，再和预期对比，切换效果也一样。
+
+![回读校验：让 PowerPoint 打开文件，把每条动画逐条读回来核对](./images/ppt-anim-verify.png)
+
+*回读校验的示意：不靠生成方自述，让 PowerPoint 打开后逐条核对（AI 生成的示意图）。*
 
 仓库里那份演示稿的最新结果：PowerPoint 打开正常（`openOk=True`），89 条动画、10 个切换全部读回无误，没有修复提示，验证报告就提交在仓库的 `docs/verify-final.json` 里，谁都能查。
 
