@@ -67,6 +67,10 @@ Colette Kress，59 岁，2013 年 9 月起担任英伟达 CFO，干了 13 年，
 
 33 年很长，长到一代人只认识一个英伟达。接下来的几年，我们会看到它是不是还能是英伟达。
 
+---
+
+11 月 23 日更新：他回来了。英伟达董事会一致投票，恢复黄仁勋 CEO、总裁及董事职务，离他 11 月 12 日辞职只隔了 11 天。就在一周前的财报电话会上，董事长还说过董事会无意让他复职。消息一出，股价单日涨了约三成。这篇文章写于 11 月 14 日，当时写的是告别；没想到反转只用了 11 天。
+
 ## 来源
 
 - USA Today：Jensen Huang resigns as Nvidia CEO amid affair probe，2026 年 11 月 12 日
@@ -74,5 +78,7 @@ Colette Kress，59 岁，2013 年 9 月起担任英伟达 CFO，干了 13 年，
 - The Neuron：Jensen Huang Resigns: What Comes Next for Nvidia?，2026 年 11 月 12 日
 - Intelligent CIO：Nvidia names Colette Kress interim CEO as board launches search for Huang successor，2026 年 11 月 13 日
 - GMA News / Reuters：Nvidia appoints CFO Colette Kress as interim CEO after Jensen Huang's exit，2026 年 11 月 13 日
+- CNN：Nvidia board reinstates Jensen Huang as CEO，2026 年 11 月 23 日
+- 华尔街日报：Nvidia Board Reinstates Jensen Huang as CEO，2026 年 11 月 23 日
 
 说明：本文依据上述公开报道转述；关于 Alice Huang 与情报部门关联的说法尚未经公开调查证实，董事会「没有理由相信机密受损」的表态为调查启动时的立场，并非最终结论；英伟达未在辞职公告中说明离职原因。
